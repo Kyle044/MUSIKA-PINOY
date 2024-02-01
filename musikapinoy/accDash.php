@@ -3,17 +3,25 @@
 
 include_once 'class.php';
 $user = $music->get_user_data();
+
+if (isset($_GET['id'])) {
+$id=$_GET['id'];
+if ($music->check_userz_exist($id)==1) {
+
+}
+else{
+  header("Location:./Page404.php");
+}
+
+
+
+}
 if (!isset($user)) {
-  header("Location:/index.php");
+  header("Location:./accDash2.php?id=$id");
 
 }
-if ($user['access']!="admin") {
-    header("Location:/index.php");
-}
-
 $music->upload();
-$music->deletez();
-$music->reply();
+
  ?>
 
 
@@ -31,14 +39,26 @@ $music->reply();
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/css.css">
-
+    <link rel="stylesheet" href="./css/css.css">
+<style >
+  .img-gallery{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+    grid-column-gap:10px;
+    grid-row-gap:10px;
+    margin-left: 3%;
+  }
+  .img-gallery img{
+    width: 100%;
+    height: 82%;
+  }
+</style>
     <title>Musika Pinoy</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light nab sticky-top" >
+    <nav class="navbar navbar-expand-lg navbar-light nab" >
     <div class="container">
-      <a class="navbar-brand" href="/adminIndex.php" style="margin-top:10px;"> MUSIKA PINOY</a>
+      <a class="navbar-brand" href="./userIndex.php" style="margin-top:10px;"> MUSIKA PINOY</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -77,10 +97,10 @@ $music->reply();
                   <option value="Guitar">Guitar</option>
                   <option value="Piano">Piano</option>
                   <option value="Drums">Drums</option>
-                  <option value="Bass">Bass</option>
-                  <option value="SongLesson">Song Lesson</option>
-                <option value="MusicTheory">Music Theory</option>
-                <option value="Performance">Performance</option>
+                    <option value="Bass">Bass</option>
+                    <option value="performance">Performance</option>
+                    <option value="theory">Music Theory</option>
+                      <option value="songlesson">Video Song Lesson</option>
                 </select>
 
 
@@ -111,22 +131,15 @@ $music->reply();
 
        </li>
           <li class="nav-item">
-        <a href="/practice.php" id="export" class=" nav-link nab-links">Export Database </a>
+        <a href="./userEdit.php?id=<?php echo$user['id']; ?>" class=" nav-link nab-links">Account </a>
 
 
 
 
        </li>
        <li class="nav-item">
-     <a href="/aMess.php" id="export" class=" nav-link nab-links">Messages</a>
 
-
-
-
-    </li>
-       <li class="nav-item">
-
-    <a href="/logout.php" class=" nav-link nab-links" onclick="return confirm('Are you Sure You Want To Log Out?')">Log Out</a>
+    <a href="./logout.php" class=" nav-link nab-links" onclick="return confirm('Are you Sure You Want To Log Out?')">Log Out</a>
 
 
        </li>
@@ -147,95 +160,104 @@ $music->reply();
 	<div class="row">
 		<div class="col-md-12 header">
 
-      <div class="title">
-        <h1 class="align-middle">Welcome <?php echo$user['name']; ?></h1>
-      </div>
+      <div style="     height: 55%;
+    display: flex;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;" >
+<img src="./img/user.png" class="rounded float-start img-fluid align-middle" alt="..."><br/>
 
+      </div>
+      <div class="col-md-12 ">
+
+        <div style="     height: 55%;
+      display: flex;
+      margin-top: 1%;
+      align-content: center;
+      justify-content: center; color:white;" >
+    <h1><?php
+    $connection=$music->openConnection();
+    $stmt = $connection->prepare("SELECT * FROM aposttbl WHERE uid=?  ");
+    $stmt->execute([$id]);
+    $users = $stmt->fetch();
+    $userCount = $stmt->rowCount();
+    if ($userCount > 0)
+    {
+      echo $users['name'];
+    }
+    else
+    {
+        echo "User";
+    }
+
+
+     ?></h1>
+
+        </div>
+        <h5 style="color:white;" align='center'>
+          <?php
+          $connection=$music->openConnection();
+          $stmtz = $connection->prepare("SELECT * FROM users WHERE id=?  ");
+          $stmtz->execute([$id]);
+          $usersz = $stmtz->fetch();
+          $userCountz = $stmtz->rowCount();
+          if ($userCountz > 0)
+          {
+            echo "Supporters ".$usersz['supporter'];
+          }
+          else
+          {
+              echo " Supporters 0";
+          }
+
+
+           ?>
+
+        </h5>
+      </div>
 		</div>
+
 	</div>
 
 </div>
 
 
 <section class="second-section">
-<!-- Categories -->
-<h3 class="a">Table of Messages!</h3>
-<div class="container ">
+<h3 class="a">Uploads</h3>
 
-  <table class="table table-dark">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Message</th>
-        <th scope="col">Date</th>
 
-        <th scope="col">Options</th>
-        <th scope="col">Delete</th>
-      </tr>
-    </thead>
-    <tbody id="target1">
-      <?php
-      $permitted_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      function generate_string($input, $strength = 5) {
-    $input_length = strlen($input);
-    $random_string = '';
-    for($i = 0; $i < $strength; $i++) {
-        $random_character = $input[mt_rand(0, $input_length - 1)];
-        $random_string .= $random_character;
-    }
 
-    return $random_string;
+<div class="img-gallery" align='center'>
+
+<?php
+
+$connection=$music->openConnection();
+$stmt = $connection->prepare("SELECT * FROM aposttbl WHERE uid=?  ");
+$stmt->execute([$id]);
+$users = $stmt->fetchAll();
+$userCount = $stmt->rowCount();
+if ($userCount > 0)
+{
+  foreach ($users as $user) {
+    echo "  <div class='card text-white bg-dark' style='width: 18rem;'>
+  <img src='./thumbnail/".$user['thumbnail']."' class='card-img-top' alt='...'>
+  <div class='card-body'>
+    <h5 class='card-title'>".$user['postName']."</h5>
+    <p class='card-text'>".$user['description']."</p>
+    <a href='./videoTemp.php?id=".$user['apost_id']."' class='btn btn-light'>Watch</a>
+  </div>
+</div>"
+    ;
+  }
 }
-$length=6;
-      $connection= $music->openConnection();
-
-      $stmt = $connection->prepare("SELECT * FROM messtbl");
-        $stmt->execute();
-        $posts = $stmt->fetchAll();
-        $userCount = $stmt->rowCount();
-        if ($userCount > 0)
-        {
-          foreach ($posts as $post) {
-          $id =   generate_string($permitted_chars,$length).$post['id'];
-              echo "    <tr>
-                  <th scope='row'>".$post['id']."</th>
-                  <td>".$post['name']."</td>
-                  <td>".$post['message']."</td>
-                  <td>".$post['date']."</td>
+else
+{
+    return 0;
+}
 
 
-                  <td> <p><button class='btn btn-light' type='button' data-bs-toggle='collapse' data-bs-target='#".$id."' aria-expanded='false' aria-controls='collapseExample'>
-                        Reply
-                      </button>
-                      </p>
-                      <div class='collapse' id='".$id."'>
-                         <div class='card card-body'>
-                         <form action=''method='post' id = '".$post['id']."' class='rep'>
-                           <div class='mb-3'>
-                             <label for='exampleFormControlTextarea1' class='form-label'>TYPE SOME REPLY</label>
-                             <textarea class='form-control' class='value' rows='3'></textarea>
-                           </div>
-                           <button type='submit'  class='btn btn-dark'> Reply </button>
-                         </form>
-                         </div>
-             </div></td>
+ ?>
 
-
-            <td><form  action='' method='post' class='dec' id='".$post['id']."'>
-
-          <button type='submit' class='btn btn-danger' '>Delete</button>
-            </form>
-
-                </tr>";
-          }
-        }
-
-       ?>
-
-
-    </tbody>
-  </table>
 
 
 
@@ -243,10 +265,15 @@ $length=6;
 </div>
 
 
+
 </section>
-<center><button  style="text-align:center;" type="button" onclick="window.print()" name="button" class="btn btn-success">Print</button></center>
+<!-- NewsFeed -->
+
+<section class="third-section">
 
 
+
+</section>
 
 
 
@@ -275,8 +302,8 @@ $length=6;
       <div class="list-group " id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Explore</a>
         <a class="list-group-item list-group-item-action bg-dark text-light" href="#"  aria-controls="home">Home</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/contact.php"  aria-controls="messages">Message</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./aboutUser.php"  aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./contactUser.php"  aria-controls="messages">Message</a>
 
       </div>
     </div>
@@ -307,8 +334,8 @@ $length=6;
 
     <div class="list-group " id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Legal</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light" href="/home.php"  aria-controls="home">Terms and Privacy</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Business</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light" href="./home.php"  aria-controls="home">Terms and Privacy</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Business</a>
 
 
     </div>
@@ -320,12 +347,10 @@ $length=6;
 </div>
 
 </section>
-
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-
 <script>
-
 
 $( document ).ready(function() {
   var d = new Date();
@@ -334,133 +359,8 @@ $( document ).ready(function() {
   var date = strDate.slice(0,n);
   $('#date').text(date);
 
-  $(document).on("submit", ".aps", function (e) {
-
-    e.preventDefault();
-    var post_id = $(this).attr('id');
-
-
-  // Save it!
-  $.ajax({
-    type:'POST',
-
-    url:'aMess.php',
-    data:{apr:post_id},
-
-    success:function(res){
-      var lastindex = res.search("<!doctype");
-      var data = res.slice(0,lastindex);
-        $('#target1').html(data);
-
-
-
-
-
-
-
-      }
-  })
-
-
-
-
-     });
-
-     $(document).on("submit", ".rep", function (e) {
-
-       e.preventDefault();
-       var post_id = $(this).attr('id');
-       var mess = $(this).find("textarea").val();
-
-
-     // Save it!
-     $.ajax({
-       type:'POST',
-
-       url:'aMess.php',
-       data:{repz:post_id,mess:mess},
-
-       success:function(res){
-         var lastindex = res.search("<!doctype");
-         var data = res.slice(0,lastindex);
-         alert(data);
-
-
-
-
-
-
-
-         }
-     })
-
-
-
-
-        });
-
-     $(document).on("submit", ".dec", function (e) {
-
-       e.preventDefault();
-       var post_id = $(this).attr('id');
-
-       if (confirm('Are you sure you want to Delete the Message?')) {
-     // Save it!
-     $.ajax({
-       type:'POST',
-       url:'aMess.php',
-       data:{decs:post_id},
-       success:function(res){
-         var lastindex = res.search("<!doctype");
-         var data = res.slice(0,lastindex);
-
-    $('#target1').html(data);
-
-
-         }
-     })
-
-   }
-       else {
-         // Do nothing!
-         console.log('This thing was not declined.');
-       }
-
-        });
-
-
-
-        $(document).on("submit", ".del", function (e) {
-
-          e.preventDefault();
-          var post_id = $(this).attr('id');
-
-          if (confirm('Are you sure you want to delete this to the website?')) {
-        // Save it!
-        $.ajax({
-          type:'POST',
-          url:'aMess.php',
-          data:{del:post_id},
-          success:function(res){
-            var lastindex = res.search("<!doctype");
-            var datas = res.slice(0,lastindex);
-              $('#fuck').html(datas);}
-        })
-
-        }
-          else {
-            // Do nothing!
-            console.log('Nothing Happened.');
-          }
-
-           });
-
-
-
-
 
 });
-
 </script>
   </body>
 </html>

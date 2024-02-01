@@ -3,13 +3,31 @@
 
 include_once 'class.php';
 $user = $music->get_user_data();
-$id = $_GET['cat'];
 
+if (isset($_GET['id'])) {
+$id=$_GET['id'];
+if ($music->check_userz_exist($id)==1)  {
+  if ($id==$user['id']) {
+    // code...
+  }
+  else{
+      header("Location:./Page404.php");
+  }
+
+}
+else{
+  header("Location:./Page404.php");
+}
+
+
+
+}
 if (!isset($user)) {
-  header("Location:/search.php?id=$id");
+  header("Location:http://localhost:8080/learn/newLayout/accDash2.php?id=$id");
 
 }
 $music->upload();
+$music->delete_post($user['id']);
 $music->clear_notif();
  ?>
 
@@ -28,7 +46,7 @@ $music->clear_notif();
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/css.css">
+    <link rel="stylesheet" href="./css/css.css">
 <style >
   .img-gallery{
     display: grid;
@@ -47,7 +65,7 @@ $music->clear_notif();
   <body>
     <nav class="navbar navbar-expand-lg navbar-light nab" >
     <div class="container">
-      <a class="navbar-brand" href="/userIndex.php" style="margin-top:10px;"> MUSIKA PINOY</a>
+      <a class="navbar-brand" href="./userIndex.php" style="margin-top:10px;"> MUSIKA PINOY</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -119,13 +137,6 @@ $music->clear_notif();
 
 
        </li>
-          <li class="nav-item">
-        <a href="/userEdit.php?id=<?php echo$user['id']; ?>" class=" nav-link nab-links">Account</a>
-
-
-
-
-       </li>
        <li class= 'nav-item dropdown'>
         <a class='nav-link dropdown-toggle zz' href='#' id='navbarDropdown' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
            Notification
@@ -135,7 +146,7 @@ $music->clear_notif();
 
           <?php
             $connection=  $music->openConnection();
-              $stmtz = $connection->prepare("SELECT * FROM notiftbl WHERE user_id = ?");
+            $stmtz = $connection->prepare("SELECT * FROM notiftbl WHERE user_id = ?  ORDER BY date DESC LIMIT 7");
             $stmtz->execute([$user['id']]);
             $posts = $stmtz->fetchAll();
 
@@ -149,7 +160,7 @@ $music->clear_notif();
               foreach ($posts as $post) {
                 $wet=$music->get_notifA($post['post_id']);
                 echo "<li><hr class='dropdown-divider'></li>
-                <li><a class='dropdown-item' href='/videoTemp.php?id=$wet'>".$post['message']."  ".$post['date']."  </a></li>";
+                <li><a class='dropdown-item' href='./videoTemp.php?id=$wet'>".$post['message']."  ".$post['date']."  </a></li>";
 
 
 
@@ -171,7 +182,7 @@ $music->clear_notif();
       </li>
        <li class="nav-item">
 
-    <a href="/logout.php" class=" nav-link nab-links" onclick="return confirm('Are you Sure You Want To Log Out?')">Log Out</a>
+    <a href="./logout.php" class=" nav-link nab-links" onclick="return confirm('Are you Sure You Want To Log Out?')">Log Out</a>
 
 
        </li>
@@ -191,10 +202,41 @@ $music->clear_notif();
 
 	<div class="row">
 		<div class="col-md-12 header">
-<div class="title">
-  <h1>Search Result</h1>
-</div>
 
+      <div style="     height: 55%;
+    display: flex;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;" >
+<img src="./img/user.png" class="rounded float-start img-fluid align-middle" alt="..."><br/>
+
+      </div>
+      <div class="col-md-12 ">
+
+        <div style="     height: 55%;
+      display: flex;
+      margin-top: 1%;
+      align-content: center;
+      justify-content: center; color:white;" >
+    <h1><?php
+    $connection=$music->openConnection();
+    $stmt = $connection->prepare("SELECT * FROM users WHERE id=?  ");
+    $stmt->execute([$id]);
+    $users = $stmt->fetch();
+    $userCount = $stmt->rowCount();
+    if ($userCount > 0)
+    {
+      echo $users['name'];
+    }
+    else
+    {
+        echo "User";
+    }
+
+
+     ?></h1>
+
+        </div>
 
       </div>
 		</div>
@@ -205,43 +247,46 @@ $music->clear_notif();
 
 
 <section class="second-section">
-  <div class="img-gallery" align='center'>
+<h3 class="a">Uploads</h3>
 
 
 
+<div class="img-gallery" align='center' id="wewe">
 
-  <?php
-  $id="%$id%";
-  $connection = $music->openConnection();
-  $stmt = $connection->prepare("SELECT * FROM aposttbl WHERE category  LIKE ?  ");
-  $stmt->execute([$id]);
-  $users = $stmt->fetchAll();
-  $userCount = $stmt->rowCount();
-  if ($userCount > 0)
-  {
-    foreach ($users as $user) {
-      echo "  <div class='card text-light bg-dark' style='width: 18rem;'>
-    <img src='/thumbnail/".$user['thumbnail']."' class='card-img-top' alt='...'>
-    <div class='card-body'>
-      <h5 class='card-title'>".$user['postName']."</h5>
-      <p class='card-text'>".$user['description']."</p>
-      <a href='/videoTemp.php?id=".$user['apost_id']."' class='btn btn-light'>Watch</a>
-    </div>
-  </div>"
-      ;
-    }
+
+<?php
+
+$connection=$music->openConnection();
+$stmt = $connection->prepare("SELECT * FROM aposttbl WHERE uid=?  ");
+$stmt->execute([$id]);
+$users = $stmt->fetchAll();
+$userCount = $stmt->rowCount();
+if ($userCount > 0)
+{
+  foreach ($users as $user) {
+    echo "  <div class='card text-white bg-dark' style='width: 18rem;'>
+  <img src='./thumbnail/".$user['thumbnail']."' class='card-img-top' alt='...'>
+  <div class='card-body'>
+    <h5 class='card-title'>".$user['postName']."</h5>
+    <p class='card-text'>".$user['description']."</p>
+    <a href='./videoTemp.php?id=".$user['apost_id']."' class='btn btn-light'>Watch</a>
+    <form action='' method='post' id='".$user['apost_id']."' class='watwat'>
+
+        <button type='submit' class='btn btn-light'  >Delete Post</button>
+    </form>
+
+  </div>
+</div>"
+    ;
   }
-  else
-  {
-    echo "<h1 style='color:black;'>The result is None</h1>";
-  }
+}
+else
+{
+    return 0;
+}
 
 
-   ?>
-
-</div>
-
-
+ ?>
 
 
 
@@ -287,8 +332,8 @@ $music->clear_notif();
       <div class="list-group " id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Explore</a>
         <a class="list-group-item list-group-item-action bg-dark text-light" href="#"  aria-controls="home">Home</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/aboutUser.php"  aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/contactUser.php"  aria-controls="messages">Message</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./aboutUser.php"  aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./contactUser.php"  aria-controls="messages">Message</a>
 
 
       </div>
@@ -320,8 +365,8 @@ $music->clear_notif();
 
     <div class="list-group " id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Legal</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light" href="/home.php"  aria-controls="home">Terms and Privacy</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Business</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light" href="./home.php"  aria-controls="home">Terms and Privacy</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Business</a>
 
 
     </div>
@@ -344,26 +389,54 @@ $( document ).ready(function() {
   var n = strDate.search("/");
   var date = strDate.slice(0,n);
   $('#date').text(date);
-  $('.notifclear').on('submit',function(e){
-      e.preventDefault();
-      var user_id=$(this).attr('id');
-      $.ajax({
-        type:'post',
-        url:'userIndex.php',
-        data:{idz:user_id},
-        success:function(res){
-          var str = res.search("<!");
-          var sliced = res.slice(0,str);
-          $('#trs').html(sliced);
-            document.getElementsByClassName('zz')[0].textContent = '0 Notification';
-        }
+     $(document).on("submit", ".watwat", function (e)
+{
 
-      })
+e.preventDefault();
+var hehe = $(this).attr('id');
+
+if (confirm('Are You sure You want to delete it?')) {
+  $.ajax({
+
+  type:'POST',
+  url:'userEdit.php',
+  data: {postid : hehe },
+  success:function(res){
+    var last = res.search("<!");
+    var sliced = res.slice(0,last);
+    $('#wewe').html(sliced);
+  }
 
 
 
 
-  });
+  })
+} else {
+    alert('Rock On!');
+}
+
+
+});
+$('.notifclear').on('submit',function(e){
+    e.preventDefault();
+    var user_id=$(this).attr('id');
+    $.ajax({
+      type:'post',
+      url:'userIndex.php',
+      data:{idz:user_id},
+      success:function(res){
+        var str = res.search("<!");
+        var sliced = res.slice(0,str);
+        $('#trs').html(sliced);
+          document.getElementsByClassName('zz')[0].textContent = '0 Notification';
+      }
+
+    })
+
+
+
+
+});
 
 });
 </script>

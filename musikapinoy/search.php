@@ -3,6 +3,19 @@
 
 include_once 'class.php';
 
+$id = $_GET['search'];
+
+
+$user = "user";
+if ($user=="user") {
+
+
+}
+else {
+  header("Location:./searchUser.php?id=$id");
+}
+
+
  ?>
 
 
@@ -20,31 +33,27 @@ include_once 'class.php';
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/css.css">
-<style media="screen">
-  .st{
-    background: #222831;
-    color: white;
-    line-height: 31px;
-    padding: 24px;
-  height: 25rem;
-  text-align: justify;
-text-justify: inter-word;
+    <link rel="stylesheet" href="./css/css.css">
+<style >
+  .img-gallery{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+    grid-column-gap:10px;
+    grid-row-gap:10px;
+    margin-left: 3%;
   }
-  .zeze{
-
-
+  .img-gallery img{
+    width: 100%;
+    height: 82%;
   }
 </style>
     <title>Musika Pinoy</title>
   </head>
   <body>
-    <?php   $music->login(); ?> <div class="">
-
-    </div>
+      <?php   $music->login(); ?>
     <nav class="navbar navbar-expand-lg navbar-light nab sticky-top" >
     <div class="container">
-      <a class="navbar-brand" href="/index.php" style="margin-top:10px;"> MUSIKA PINOY</a>
+      <a class="navbar-brand" href="./index.php" style="margin-top:10px;"> MUSIKA PINOY</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -144,38 +153,79 @@ text-justify: inter-word;
     </div>
     </nav>
     <div class="container-fluid">
+
 	<div class="row">
-		<div class="col-md-12 header">
+    <div class="col-md-12 header">
+<div class="title">
+  <h1>Search Result</h1>
+</div>
 
-      <div class="title">
-        <h1 class="align-middle">ABOUT US</h1>
+
       </div>
-
 		</div>
+
 	</div>
 
 </div>
 
-<section class="second-section">
-  <!-- Categories -->
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 st">
-        <br>
-        <h3 align="center">CheezeWhich Band</h3>
-<p>
-in the year of 2019 cheeze which band is formed by Earist Students Who Aspire to become Known in the music industry And because of that dream we create a website to teach people who want to learn music for free so that we can inspire more musician and make OPM the best music of all</p>
-      </div>
-      <div class="col-md-6 zeze">
-<img class="img-fluid"src="/img/band.jpg" alt="">
-      </div>
-    </div>
 
-  </div>
+<section class="second-section">
+  <div class="img-gallery" align='center'>
+
+
+
+
+  <?php
+  $name = "%$id%";
+  $connection = $music->openConnection();
+  $stmt = $connection->prepare("SELECT * FROM aposttbl WHERE postName  LIKE ?  ");
+  $stmt->execute([$name]);
+  $users = $stmt->fetchAll();
+  $userCount = $stmt->rowCount();
+  if ($userCount > 0)
+  {
+    foreach ($users as $user) {
+      echo "  <div class='card text-light bg-dark' style='width: 18rem;'>
+    <img src='./thumbnail/".$user['thumbnail']."' class='card-img-top' alt='...'>
+    <div class='card-body'>
+      <h5 class='card-title'>".$user['postName']."</h5>
+      <p class='card-text'>".$user['description']."</p>
+      <a href='./vidTemp.php?id=".$user['apost_id']."' class='btn btn-light'>Watch</a>
+    </div>
+  </div>"
+      ;
+    }
+  }
+  else
+  {
+    echo "<h1 style='color:white;'> None</h1>";
+  }
+
+
+   ?>
+
+</div>
+
+
+
+
+
+
+
+</div>
+
 
 
 </section>
-<!-- Learn Instruments -->
+<!-- NewsFeed -->
+
+<section class="third-section">
+
+
+
+</section>
+
+
 
 
 
@@ -197,13 +247,13 @@ in the year of 2019 cheeze which band is formed by Earist Students Who Aspire to
         </div>
         <div class="footer2">
           <div class="row">
-    <div class="fots ">
+    <div class="fots  ">
 
       <div class="list-group " id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Explore</a>
         <a class="list-group-item list-group-item-action bg-dark text-light" href="#"  aria-controls="home">Home</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/contact.php"  aria-controls="messages">Message</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./contact.php"  aria-controls="messages">Message</a>
 
       </div>
     </div>
@@ -216,7 +266,7 @@ in the year of 2019 cheeze which band is formed by Earist Students Who Aspire to
       </div>
       <div class="footer3">
         <div class="row">
-  <div class="fots  ">
+  <div class="fots ">
 
     <div class="list-group " id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Follow Us</a>
@@ -230,12 +280,12 @@ in the year of 2019 cheeze which band is formed by Earist Students Who Aspire to
       </div>
       <div class="footer4">
         <div class="row">
-  <div class="fots legal  ">
+  <div class="fots  ">
 
     <div class="list-group " id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Legal</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light" href="/home.php"  aria-controls="home">Terms and Privacy</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Business</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light" href="./home.php"  aria-controls="home">Terms and Privacy</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Business</a>
 
 
     </div>
@@ -247,23 +297,22 @@ in the year of 2019 cheeze which band is formed by Earist Students Who Aspire to
 </div>
 
 </section>
-
-
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script>
 
 $( document ).ready(function() {
-<?php $music->register();
+  <?php $music->register();
 
 
-?>
-var d = new Date();
-var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
-var n = strDate.search("/");
-var date = strDate.slice(0,n);
-$('#date').text(date);
+  ?>
+  var d = new Date();
+  var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
+  var n = strDate.search("/");
+  var date = strDate.slice(0,n);
+  $('#date').text(date);
+
 
 });
 </script>

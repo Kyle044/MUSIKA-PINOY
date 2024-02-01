@@ -2,46 +2,11 @@
 <?php
 
 include_once 'class.php';
-$user = "user";
-if ($user=="user") {
-
-
-}
-else {
-  header("Location:/videoTemp.php?id=81");
-}
-if (isset($_GET['id'])) {
-$id=$_GET['id'];
-if ($music->check_page_exist($id)==1) {
-
-}
-else{
-  header("Location:/Page404.php");
-}
-$connection = $music->openConnection();
-$stmt = $connection->prepare("SELECT * FROM aposttbl  WHERE apost_id=? ");
-$stmt->execute([$id]);
-$users = $stmt->fetch();
-$userCount = $stmt->rowCount();
-
-
-}
-
-$music->like();
-$music-> comment_part2();
-
-
-
-
-
-
 
  ?>
 
 
-
-
-
+<!doctype html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -55,55 +20,34 @@ $music-> comment_part2();
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/css.css">
-
-    <title>Musika Pinoy</title>
+    <link rel="stylesheet" href="./css/css.css">
     <style >
-      .aref{
-        text-decoration:none; color:white;
+    .center {
+display: block;
+margin-left: auto;
+margin-right: auto;
 
-      }
-      .aref:hover{
-         color:rgb(0,173,181);
-      }
-      .shet{
-        position: relative;
-        left:-33%;
-      }
-      .hidden{
-        visibility: hidden;
-      }
-      .visible{
-        visibility: visible;
-      }
-      .com-card{
-        width: 100%;
-color: white;
+}
+.pz{
 
+    font-size: 16px;
+    width: 50%;
+    text-align: justify;
+    color: black;
+    font-family: "Times New Roman", Times, serif;
+    line-height: 31px;
 
-      }
-      .com-card h5 {
-          margin-top: 3%;
-          margin-bottom: 2%;
-      }
-      .date {
-
-      float: right;
-      margin-top: -10%;
-
-    }
-    .footer {
-    height: 50%;
-    background-color: #393e46;
-    padding: 30px;
 }
     </style>
+    <title>Musika Pinoy</title>
   </head>
   <body>
-      <?php   $music->login(); ?>
+    <?php   $music->login(); ?> <div class="">
+
+    </div>
     <nav class="navbar navbar-expand-lg navbar-light nab sticky-top" >
     <div class="container">
-      <a class="navbar-brand" href="/index.php" style="margin-top:10px;"> MUSIKA PINOY</a>
+      <a class="navbar-brand" href="./index.php" style="margin-top:10px;"> MUSIKA PINOY</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -120,28 +64,28 @@ color: white;
               <div class="modalz_content">
                 <h3>Login</h3>
                 <form method="post" >
-  <div class="form-group">
+<div class="form-group">
   <label for="exampleInputEmail1">Email address</label>
   <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="ems">
   <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-  </div>
-  <div class="form-group">
+</div>
+<div class="form-group">
   <label for="exampleInputPassword1">Password</label>
   <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="pass">
-  </div>
-  <div class="form-group">
+</div>
+<div class="form-group">
   <div class="form-check">
     <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
     <label class="form-check-label" for="invalidCheck2">
       Agree to terms and conditions
     </label>
   </div>
-  </div>
+</div>
     <button type="button" class="btn btn-primary">  <label for="click">Close</label></button>
-  <button type="submit" class="btn btn-primary"name="log-sbm">Submit</button>
+<button type="submit" class="btn btn-primary"name="log-sbm">Submit</button>
 
 
-  </form>
+</form>
 
               </div>
             </div>
@@ -182,7 +126,7 @@ color: white;
    </div>
       <button type="button" class="btn btn-primary">  <label for="clicks">Close</label></button>
    <button type="submit" class="btn btn-primary" name="submit">Register</button>
-  </form>
+ </form>
 
            </div>
          </div>
@@ -201,104 +145,37 @@ color: white;
         </ul>
       </div>
     </div>
-    </nav><div class="container-fluid " style="background:#222831;">
-  	<div class="row">
-  		<div class="col-md-8" style="padding:3%; height: 100%;">
-        <div class="video-frame"  >
-          <video  controls=""style="width:100%;     height: 26rem;"  controlsList="nodownload">
-            <source src="/post/<?php echo$users['fileName']; ?>" type="video/mp4">
-          </video>
-        </div>
-        <div class="col-12" >
-          <div class="row">
-            <div class="col-12">
-              <h3 style="color:white; padding:1%; "><?php echo$users['postName']; ?></h3>
+    </nav>
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12 header">
 
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-10">
-              <pre style="color:white; padding:1%;"> <?php $music->views($id); ?> Views      <?php echo$users['date_up']; ?> Date Uploaded
+      <div class="title">
+        <h1 class="align-middle">ONE SOUND ONE BAND ONE LOVE</h1>
+      </div>
 
- Uploaded By <a href="/accDash.php?id=<?php echo$users['uid']; ?>" class="aref"><?php echo$users['name']; ?></a> </pre>
-
-            </div>
-            <div class="col-2">
-           <span style="color:white; padding:1%;" id="vid1-Likes"><?php echo$music->likes($id); ?></span>  <a class='visible like' href=''  id ='<?php echo$id;?>' role='button'><img src="/img/hart.png" alt="" ></a><a class=' hidden shet unlike' href=''  id ='<?php echo$id; ?>' role='button' style=""><img src="/img/harted.png" alt="" ></a>
-
-
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-12">
-              <hr style="color:white;">
-              <h5 style="color:white; padding:1%;">Description</h5>
-              <p style="color:white; padding:1%;"><?php echo$users['description']; ?></p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <hr style="color:white;">
-              <h5 style="color:white; padding:1%;">Comments</h5>
-              <form action="" method="post" id="Video1">
-                <textarea class="form-control" id="text-area" rows="3"></textarea>
-                  <input type="hidden" id="comType" value="">
-                    <input type="hidden" id="uid" value="">
-                    <button class="btn btn-dark com-sub" type="submit" id="com-btn">
-                      Comment
-                    </button>
-                    <button class="btn btn-dark cancel" type="button" id="can-btn">
-                      Cancel
-                    </button>
-                      </form>
-
-
-
-
-
-
-
-
-
-
-
-
-            </div>
-          </div>
-          <div class="row ">
-            <div class="col-12 " id="ewanko">
-
-            </div>
-          </div>
-        </div>
-  		</div>
-  		<div class="col-md-4" style="padding:3%;">
-
-
-      <?php $music->getUsersPosts($id); ?>
-
-
-
-  		</div>
-  	</div>
-  </div>
+		</div>
 	</div>
 
 </div>
 
+<section class="second-section">
+<!-- Categories -->
+<h3 class="a">Terms And Agreement</h3>
 
-<section class="">
+   <p class="pz center">This part is a mandatory Agreement for both developer & user to provide and understand information about website.  We will collect other information of user so we can monitor all activities that will happen in this website.
+The main goal of this website is to entertain all people that have interests in music and instrument. Some of you are curious about how instruments perform and sounds if you are playing with it. So, the reason why you need to read this part is to help you understand the do’s and don’ts and prevent to make phishing and other illegal doing.
+In this site, you can freely watch and explore any videos and data that are uploaded by other users or admin. But, if you want to upload or share your own video, you need to register and create your own account so the site will credit that uploaded data to you and to your account.
+If you want to create an account now, basically the site will ask your personal information like Personal Name, Age, Profile Picture, Address, Gmail or phone number to register so that we can assure your content and give credit to your account.
+But what if you don’t want to create account? Well you can’t upload, react, comment and share a content that are uploaded in this site because admins will not approve any actions that you want to do because you are an unidentified user.
+</p>
 
 
 
 </section>
-<!-- NewsFeed -->
-
-<section class="">
+<!-- Learn Instruments -->
 
 
-</section>
 
 
 
@@ -322,13 +199,13 @@ color: white;
         </div>
         <div class="footer2">
           <div class="row">
-    <div class="fots  ">
+    <div class="fots ">
 
       <div class="list-group " id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Explore</a>
         <a class="list-group-item list-group-item-action bg-dark text-light" href="#"  aria-controls="home">Home</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/contact.php"  aria-controls="messages">Message</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./contact.php"  aria-controls="messages">Message</a>
 
       </div>
     </div>
@@ -341,7 +218,7 @@ color: white;
       </div>
       <div class="footer3">
         <div class="row">
-  <div class="fots ">
+  <div class="fots  ">
 
     <div class="list-group " id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Follow Us</a>
@@ -355,12 +232,12 @@ color: white;
       </div>
       <div class="footer4">
         <div class="row">
-  <div class="fots  ">
+  <div class="fots legal  ">
 
     <div class="list-group " id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Legal</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light" href="/home.php"  aria-controls="home">Terms and Privacy</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Business</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light" href="./home.php"  aria-controls="home">Terms and Privacy</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Business</a>
 
 
     </div>
@@ -373,61 +250,24 @@ color: white;
 
 </section>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-
 <script>
 
-
 $( document ).ready(function() {
-  <?php $music->register();?>
-
-  var d = new Date();
-  var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
-  var n = strDate.search("/");
-  var date = strDate.slice(0,n);
-  $('#date').text(date);
+<?php $music->register();
 
 
-  $('.like').click(function(e){
-    e.preventDefault();
-  var postid = $(this).attr('id');
-  $(this).addClass('hidden').removeClass('visible');
-  $('.unlike').addClass('visible').removeClass('hidden');
+?>
+var d = new Date();
+var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
+var n = strDate.search("/");
+var date = strDate.slice(0,n);
+$('#date').text(date);
 
-alert("Sign in to Access!");
-
-  });
-  $('.unlike').click(function(e){
-    e.preventDefault();
-var postid = $(this).attr('id');
-$(this).addClass('hidden').removeClass('visible');
-$('.like').addClass('visible').removeClass('hidden');
-
-alert("Sign in to Access!");
-
-  });
-  $('#com-btn').hide();
-  $('#can-btn').hide();
-  $('#text-area').on('click',function(){
-    $('#com-btn').show();
-    $('#can-btn').show();
-  });
-  $('#can-btn').on('click',function(){
-    $('#com-btn').hide();
-    $('#can-btn').hide();
-
-  });
-  var cond = $('#comType');
-  var nema =$('#uid');
-  var text = $('#text-area');
-  //
-  $('#Video1').on('submit',function(e){
-    e.preventDefault();
-alert("You must be Signed in to Comment!");
-    });
 });
-
 </script>
   </body>
 </html>

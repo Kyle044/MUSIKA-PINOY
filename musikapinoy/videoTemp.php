@@ -4,7 +4,7 @@
 include_once 'class.php';
 $user = $music->get_user_data();
 if (!isset($user)) {
-  header("Location:/vidTemp.php?id=81");
+  header("Location:./vidTemp.php?id=81");
 
 }
 if (isset($_GET['id'])) {
@@ -13,7 +13,7 @@ if ($music->check_page_exist($id)==1) {
 
 }
 else{
-  header("Location:/Page404.php");
+  header("Location:./Page404.php");
 }
 $connection = $music->openConnection();
 $stmt = $connection->prepare("SELECT * FROM aposttbl  WHERE apost_id=? ");
@@ -63,7 +63,7 @@ $music->support();
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/css.css">
+    <link rel="stylesheet" href="./css/css.css">
 
     <title>Musika Pinoy</title>
     <style >
@@ -111,7 +111,7 @@ color: white;
   <body>
     <nav class="navbar navbar-expand-lg navbar-light nab sticky-top" >
     <div class="container">
-      <a class="navbar-brand" href="/userIndex.php" style="margin-top:10px;"> MUSIKA PINOY</a>
+      <a class="navbar-brand" href="./userIndex.php" style="margin-top:10px;"> MUSIKA PINOY</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -184,7 +184,7 @@ color: white;
 
        </li>
           <li class="nav-item">
-        <a href="/userEdit.php?id=<?php echo$user['id']; ?>" class=" nav-link nab-links">Account </a>
+        <a href="./userEdit.php?id=<?php echo$user['id']; ?>" class=" nav-link nab-links">Account </a>
 
 
 
@@ -213,7 +213,7 @@ color: white;
               foreach ($posts as $post) {
                 $wet=$music->get_notifA($post['post_id']);
                 echo "<li><hr class='dropdown-divider'></li>
-                <li><a class='dropdown-item' href='/videoTemp.php?id=$wet'>".$post['message']."  ".$post['date']."  </a></li>";
+                <li><a class='dropdown-item' href='./videoTemp.php?id=$wet'>".$post['message']."  ".$post['date']."  </a></li>";
 
 
 
@@ -235,7 +235,7 @@ color: white;
       </li>
        <li class="nav-item">
 
-    <a href="/logout.php" class=" nav-link nab-links" onclick="return confirm('Are you Sure You Want To Log Out?')">Log Out</a>
+    <a href="./logout.php" class=" nav-link nab-links" onclick="return confirm('Are you Sure You Want To Log Out?')">Log Out</a>
 
 
        </li>
@@ -256,7 +256,7 @@ color: white;
   		<div class="col-md-8" style="padding:3%; height: 100%;">
         <div class="video-frame"  >
           <video  controls=""style="width:100%;     height: 26rem;"  controlsList="nodownload">
-            <source src="/post/<?php echo$users['fileName']; ?>" type="video/mp4">
+            <source src="./post/<?php echo$users['fileName']; ?>" type="video/mp4">
           </video>
         </div>
         <div class="col-12" >
@@ -270,7 +270,7 @@ color: white;
               <pre style="color:white; padding:1%;"> <?php $music->views($id); ?> Views      <?php echo$users['date_up']; ?> Date Uploaded</pre>
             </div>
             <div class="col-2">
-           <span style="color:white; padding:1%;" id="vid1-Likes"><?php echo$music->likes($id); ?></span>  <a class='hidden like' href=''  id ='<?php echo$id;?>' role='button'><img src="/img/hart.png" class="img-fluid"alt="" ></a><a class=' hidden shet unlike' href=''  id ='<?php echo$id; ?>' role='button' style=""><img src="/img/harted.png" class="img-fluid" alt="" ></a>
+           <span style="color:white; padding:1%;" id="vid1-Likes"><?php echo$music->likes($id); ?></span>  <a class='hidden like' href=''  id ='<?php echo$id;?>' role='button'><img src="./img/hart.png" class="img-fluid"alt="" ></a><a class=' hidden shet unlike' href=''  id ='<?php echo$id; ?>' role='button' style=""><img src="./img/harted.png" class="img-fluid" alt="" ></a>
 
 
             </div>
@@ -278,7 +278,7 @@ color: white;
           <div class="row">
 
 
-                  <pre style="color:white; padding:1%;">  Uploaded By <a href="/accDash.php?id=<?php echo$users['uid']; ?>" class="aref"><?php echo$users['name']; ?></a>  </pre>
+                  <pre style="color:white; padding:1%;">  Uploaded By <a href="./accDash.php?id=<?php echo$users['uid']; ?>" class="aref"><?php echo$users['name']; ?></a>  </pre>
                       <a href='' id="<?php echo$users['uid'] ?>" class='btn btn-light support hidden'>Support</a>
                           <a href='' id="<?php echo$users['uid'] ?>" class='btn btn-light unsupport hidden'>Unsupport</a>
           </div>
@@ -377,8 +377,8 @@ color: white;
       <div class="list-group " id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Explore</a>
         <a class="list-group-item list-group-item-action bg-dark text-light" href="#"  aria-controls="home">Home</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/aboutUser.php"  aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/contactUser.php"  aria-controls="messages">Message</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./aboutUser.php"  aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./contactUser.php"  aria-controls="messages">Message</a>
 
 
       </div>
@@ -410,8 +410,8 @@ color: white;
 
     <div class="list-group " id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Legal</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light" href="/home.php"  aria-controls="home">Terms and Privacy</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Business</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light" href="./home.php"  aria-controls="home">Terms and Privacy</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Business</a>
 
 
     </div>

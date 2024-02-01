@@ -2,7 +2,7 @@
 <?php
 
 include_once 'class.php';
-$user = $music->get_user_data();
+
 
 if (isset($_GET['id'])) {
 $id=$_GET['id'];
@@ -10,17 +10,22 @@ if ($music->check_userz_exist($id)==1) {
 
 }
 else{
-  header("Location:/Page404.php");
+  header("Location:./Page404.php");
 }
 
 
 
 }
-if (!isset($user)) {
-  header("Location:/accDash2.php?id=$id");
+
+
+$user = "user";
+if ($user=="user") {
+
 
 }
-$music->upload();
+else {
+  header("Location:./accDash.php?id=$id");
+}
 
  ?>
 
@@ -39,26 +44,27 @@ $music->upload();
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/css.css">
-<style >
-  .img-gallery{
-    display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
-    grid-column-gap:10px;
-    grid-row-gap:10px;
-    margin-left: 3%;
-  }
-  .img-gallery img{
-    width: 100%;
-    height: 82%;
-  }
-</style>
+    <link rel="stylesheet" href="./css/css.css">
+    <style >
+      .img-gallery{
+        display: grid;
+        grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+        grid-column-gap:10px;
+        grid-row-gap:10px;
+            margin-left: 3%;
+      }
+      .img-gallery  img{
+        width: 100%;
+        height: 82%;
+      }
+      </style>
     <title>Musika Pinoy</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light nab" >
+    <?php   $music->login(); ?>
+    <nav class="navbar navbar-expand-lg navbar-light nab sticky-top" >
     <div class="container">
-      <a class="navbar-brand" href="/userIndex.php" style="margin-top:10px;"> MUSIKA PINOY</a>
+      <a class="navbar-brand" href="./index.php" style="margin-top:10px;"> MUSIKA PINOY</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -69,82 +75,84 @@ $music->upload();
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
             <input type="checkbox" id="click" style="display:none;">
-            <label for="click" class="button nav-link nab-links">Post Video</label>
+            <label for="click" class="button nav-link nab-links">Login</label>
 
             <div class="modalz">
               <div class="modalz_content">
-                <h3>Post a Video</h3>
-                <div class="container">
-
-                      <form method="post" action="" enctype="multipart/form-data">
-                      <div class="mb-3">
-                    <label for="formFile" class="form-label">Upload a Video!</label>
-                    <input class="form-control" type="file" name="file" id="formFile">
-                  </div>
-                  <div class="mb-3">
-                <label for="formFile" class="form-label">Thumbnail!</label>
-                <input class="form-control" type="file" name="thumb" id="formFile">
-                </div>
-                <input type="hidden" name="name" value="<?php echo$user['name']; ?>">
-                <input type="hidden" name="id" value="<?php echo$user['id']; ?>">
-                  <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Name</label>
-                    <input type="text" class="form-control" name="product_name"  placeholder="Name of Post">
-                  </div>
-
-                  <select class="form-select" name="type"aria-label="Default select example">
-                  <option selected>Category</option>
-                  <option value="Guitar">Guitar</option>
-                  <option value="Piano">Piano</option>
-                  <option value="Drums">Drums</option>
-                    <option value="Bass">Bass</option>
-                    <option value="performance">Performance</option>
-                    <option value="theory">Music Theory</option>
-                      <option value="songlesson">Video Song Lesson</option>
-                </select>
+                <h3>Login</h3>
+                <form method="post" >
+  <div class="form-group">
+  <label for="exampleInputEmail1">Email address</label>
+  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="ems">
+  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <div class="form-group">
+  <label for="exampleInputPassword1">Password</label>
+  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="pass">
+  </div>
+  <div class="form-group">
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+    <label class="form-check-label" for="invalidCheck2">
+      Agree to terms and conditions
+    </label>
+  </div>
+  </div>
+    <button type="button" class="btn btn-primary">  <label for="click">Close</label></button>
+  <button type="submit" class="btn btn-primary"name="log-sbm">Submit</button>
 
 
-                  <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-                    <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3"></textarea>
-                  </div>
-                  <button type="submit" name="submit" class="btn btn-dark">Submit</button>
-                          <button type="button" class="btn  btn-dark">  <label for="click">Close</label></button>
-                    </form>
-
-                </div>
-
-
-
-
-
-
+  </form>
 
               </div>
             </div>
             <div class="overlay">
 
             </div>
-
-
-
-
-       </li>
-          <li class="nav-item">
-        <a href="/userEdit.php?id=<?php echo$user['id']; ?>" class=" nav-link nab-links">Account </a>
-
-
-
-
        </li>
        <li class="nav-item">
+         <input type="checkbox" id="clicks" style="display:none;">
+         <label for="clicks" class="button nav-link nab-links">Register</label>
 
-    <a href="/logout.php" class=" nav-link nab-links" onclick="return confirm('Are you Sure You Want To Log Out?')">Log Out</a>
+         <div class="modalz">
+           <div class="modalz_content">
+             <h3>Register</h3>
+             <form method="POST">
+   <div class="form-row">
+     <div class="form-group col-md-6">
+       <label for="inputEmail4">Email</label>
+       <input type="email" class="form-control" id="inputEmail4" name="email"placeholder="Email">
+     </div>
+     <div class="form-group col-md-6">
+       <label for="text">Name</label>
+       <input type="text" class="form-control" id="text" placeholder="Name" name="name">
+     </div>
+     <div class="form-group col-md-6">
+       <label for="inputPassword4">Password</label>
+       <input type="password" class="form-control" id="inputPassword4" name="password"placeholder="Password">
+     </div>
+     <div class="form-group col-md-6">
+       <label for="inputPassword4">Confirm Password</label>
+       <input type="password" class="form-control" id="inputPassword4" name="confirm_password"placeholder="Password">
+     </div>
+   </div>
 
 
+   <div class="form-group">
+
+   </div>
+      <button type="button" class="btn btn-primary">  <label for="clicks">Close</label></button>
+   <button type="submit" class="btn btn-primary" name="submit">Register</button>
+  </form>
+
+           </div>
+         </div>
+         <div class="overlay">
+
+         </div>
        </li>
           <li class="nav-item">
-            <form class="d-flex" style="width: 422px;" action="searchUser.php" method="get">
+            <form class="d-flex" style="width: 422px;" action="search.php" method="get">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="margin-top:10px;" name="search">
               <button class="btn btn-outline-success" type="submit" style="margin-top:10px;">Search</button>
             </form>
@@ -165,7 +173,7 @@ $music->upload();
     margin-top: 5%;
     align-content: center;
     justify-content: center;" >
-<img src="/img/user.png" class="rounded float-start img-fluid align-middle" alt="..."><br/>
+<img src="./img/user.png" class="rounded float-start img-fluid align-middle" alt="..."><br/>
 
       </div>
       <div class="col-md-12 ">
@@ -194,26 +202,7 @@ $music->upload();
      ?></h1>
 
         </div>
-        <h5 style="color:white;" align='center'>
-          <?php
-          $connection=$music->openConnection();
-          $stmtz = $connection->prepare("SELECT * FROM users WHERE id=?  ");
-          $stmtz->execute([$id]);
-          $usersz = $stmtz->fetch();
-          $userCountz = $stmtz->rowCount();
-          if ($userCountz > 0)
-          {
-            echo "Supporters ".$usersz['supporter'];
-          }
-          else
-          {
-              echo " Supporters 0";
-          }
 
-
-           ?>
-
-        </h5>
       </div>
 		</div>
 
@@ -224,10 +213,7 @@ $music->upload();
 
 <section class="second-section">
 <h3 class="a">Uploads</h3>
-
-
-
-<div class="img-gallery" align='center'>
+<div class="img-gallery">
 
 <?php
 
@@ -240,11 +226,11 @@ if ($userCount > 0)
 {
   foreach ($users as $user) {
     echo "  <div class='card text-white bg-dark' style='width: 18rem;'>
-  <img src='/thumbnail/".$user['thumbnail']."' class='card-img-top' alt='...'>
+  <img src='./thumbnail/".$user['thumbnail']."' class='card-img-top' alt='...'>
   <div class='card-body'>
     <h5 class='card-title'>".$user['postName']."</h5>
     <p class='card-text'>".$user['description']."</p>
-    <a href='/videoTemp.php?id=".$user['apost_id']."' class='btn btn-light'>Watch</a>
+    <a href='./videoTemp.php?id=".$user['apost_id']."' class='btn btn-light'>Watch</a>
   </div>
 </div>"
     ;
@@ -263,8 +249,6 @@ else
 
 
 </div>
-
-
 
 </section>
 <!-- NewsFeed -->
@@ -302,8 +286,8 @@ else
       <div class="list-group " id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Explore</a>
         <a class="list-group-item list-group-item-action bg-dark text-light" href="#"  aria-controls="home">Home</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/aboutUser.php"  aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/contactUser.php"  aria-controls="messages">Message</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./contact.php"  aria-controls="messages">Message</a>
 
       </div>
     </div>
@@ -334,8 +318,8 @@ else
 
     <div class="list-group " id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Legal</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light" href="/home.php"  aria-controls="home">Terms and Privacy</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Business</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light" href="./home.php"  aria-controls="home">Terms and Privacy</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Business</a>
 
 
     </div>
@@ -352,7 +336,10 @@ else
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script>
 
-$( document ).ready(function() {
+$( document ).ready(function() {<?php $music->register();
+
+
+?>
   var d = new Date();
   var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
   var n = strDate.search("/");

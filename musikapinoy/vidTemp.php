@@ -2,11 +2,46 @@
 <?php
 
 include_once 'class.php';
+$user = "user";
+if ($user=="user") {
+
+
+}
+else {
+  header("Location:./videoTemp.php?id=81");
+}
+if (isset($_GET['id'])) {
+$id=$_GET['id'];
+if ($music->check_page_exist($id)==1) {
+
+}
+else{
+  header("Location:./Page404.php");
+}
+$connection = $music->openConnection();
+$stmt = $connection->prepare("SELECT * FROM aposttbl  WHERE apost_id=? ");
+$stmt->execute([$id]);
+$users = $stmt->fetch();
+$userCount = $stmt->rowCount();
+
+
+}
+
+$music->like();
+$music-> comment_part2();
+
+
+
+
+
+
 
  ?>
 
 
-<!doctype html>
+
+
+
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -20,17 +55,55 @@ include_once 'class.php';
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/css.css">
+    <link rel="stylesheet" href="./css/css.css">
 
     <title>Musika Pinoy</title>
+    <style >
+      .aref{
+        text-decoration:none; color:white;
+
+      }
+      .aref:hover{
+         color:rgb(0,173,181);
+      }
+      .shet{
+        position: relative;
+        left:-33%;
+      }
+      .hidden{
+        visibility: hidden;
+      }
+      .visible{
+        visibility: visible;
+      }
+      .com-card{
+        width: 100%;
+color: white;
+
+
+      }
+      .com-card h5 {
+          margin-top: 3%;
+          margin-bottom: 2%;
+      }
+      .date {
+
+      float: right;
+      margin-top: -10%;
+
+    }
+    .footer {
+    height: 50%;
+    background-color: #393e46;
+    padding: 30px;
+}
+    </style>
   </head>
   <body>
-    <?php   $music->login(); ?> <div class="">
-
-    </div>
+      <?php   $music->login(); ?>
     <nav class="navbar navbar-expand-lg navbar-light nab sticky-top" >
     <div class="container">
-      <a class="navbar-brand" href="index.php" style="margin-top:10px;"> MUSIKA PINOY</a>
+      <a class="navbar-brand" href="./index.php" style="margin-top:10px;"> MUSIKA PINOY</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -47,28 +120,28 @@ include_once 'class.php';
               <div class="modalz_content">
                 <h3>Login</h3>
                 <form method="post" >
-<div class="form-group">
+  <div class="form-group">
   <label for="exampleInputEmail1">Email address</label>
   <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="ems">
   <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-</div>
-<div class="form-group">
+  </div>
+  <div class="form-group">
   <label for="exampleInputPassword1">Password</label>
   <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="pass">
-</div>
-<div class="form-group">
+  </div>
+  <div class="form-group">
   <div class="form-check">
     <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
     <label class="form-check-label" for="invalidCheck2">
       Agree to terms and conditions
     </label>
   </div>
-</div>
+  </div>
     <button type="button" class="btn btn-primary">  <label for="click">Close</label></button>
-<button type="submit" class="btn btn-primary"name="log-sbm">Submit</button>
+  <button type="submit" class="btn btn-primary"name="log-sbm">Submit</button>
 
 
-</form>
+  </form>
 
               </div>
             </div>
@@ -109,7 +182,7 @@ include_once 'class.php';
    </div>
       <button type="button" class="btn btn-primary">  <label for="clicks">Close</label></button>
    <button type="submit" class="btn btn-primary" name="submit">Register</button>
- </form>
+  </form>
 
            </div>
          </div>
@@ -128,162 +201,101 @@ include_once 'class.php';
         </ul>
       </div>
     </div>
-    </nav>
-    <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12 header">
+    </nav><div class="container-fluid " style="background:#222831;">
+  	<div class="row">
+  		<div class="col-md-8" style="padding:3%; height: 100%;">
+        <div class="video-frame"  >
+          <video  controls=""style="width:100%;     height: 26rem;"  controlsList="nodownload">
+            <source src="./post/<?php echo$users['fileName']; ?>" type="video/mp4">
+          </video>
+        </div>
+        <div class="col-12" >
+          <div class="row">
+            <div class="col-12">
+              <h3 style="color:white; padding:1%; "><?php echo$users['postName']; ?></h3>
 
-      <div class="title">
-        <h1 class="align-middle">ONE SOUND ONE BAND ONE LOVE</h1>
-      </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-10">
+              <pre style="color:white; padding:1%;"> <?php $music->views($id); ?> Views      <?php echo$users['date_up']; ?> Date Uploaded
 
-		</div>
+ Uploaded By <a href="./accDash.php?id=<?php echo$users['uid']; ?>" class="aref"><?php echo$users['name']; ?></a> </pre>
+
+            </div>
+            <div class="col-2">
+           <span style="color:white; padding:1%;" id="vid1-Likes"><?php echo$music->likes($id); ?></span>  <a class='visible like' href=''  id ='<?php echo$id;?>' role='button'><img src="./img/hart.png" alt="" ></a><a class=' hidden shet unlike' href=''  id ='<?php echo$id; ?>' role='button' style=""><img src="./img/harted.png" alt="" ></a>
+
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <hr style="color:white;">
+              <h5 style="color:white; padding:1%;">Description</h5>
+              <p style="color:white; padding:1%;"><?php echo$users['description']; ?></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <hr style="color:white;">
+              <h5 style="color:white; padding:1%;">Comments</h5>
+              <form action="" method="post" id="Video1">
+                <textarea class="form-control" id="text-area" rows="3"></textarea>
+                  <input type="hidden" id="comType" value="">
+                    <input type="hidden" id="uid" value="">
+                    <button class="btn btn-dark com-sub" type="submit" id="com-btn">
+                      Comment
+                    </button>
+                    <button class="btn btn-dark cancel" type="button" id="can-btn">
+                      Cancel
+                    </button>
+                      </form>
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-12 " id="ewanko">
+
+            </div>
+          </div>
+        </div>
+  		</div>
+  		<div class="col-md-4" style="padding:3%;">
+
+
+      <?php $music->getUsersPosts($id); ?>
+
+
+
+  		</div>
+  	</div>
+  </div>
 	</div>
 
 </div>
 
-<section class="second-section">
-  <!-- Categories -->
-  <h3 class="a">Categories!</h3>
-  <div class="container-fluid ">
-  	<div class="row">
-  		<div class="col-md-3 col-sm-6 debs">
-        <div class="box">
-          <a href="/Cat.php?cat=songlesson">
-            <div class="slide slide-top">
-              <div class="slide-content">
-                <h3 >Video Song Lessons</h3>
 
-              </div>
-              <img src="/img/Vids.jpg" alt="" >
-            </div>
+<section class="">
 
-          </a>
-
-
-        </div>
-
-
-  		</div>
-  		<div class="col-md-3 col-sm-6 debs">
-        <div class="box">
-          <a href="/Cat.php?cat=theory">
-            <div class="slide slide-top">
-              <div class="slide-content">
-                <h3 >Music Theory</h3>
-
-              </div>
-              <img src="/img/thes.jpg" alt="" >
-            </div>
-
-          </a>
-        </div>
-  		</div>
-  		<div class="col-md-3 col-sm-6 debs">
-        <div class="box">
-          <a href="/Cat.php?cat=performance">
-            <div class="slide slide-top">
-              <div class="slide-content">
-                <h3>Watch Performance</h3>
-
-              </div>
-              <img src="/img/per.jpg" alt="" >
-            </div>
-
-          </a>
-
-        </div>
-  		</div>
-  		<div class="col-md-3 col-sm-6 debs">
-        <div class="box">
-          <a href="/chordChart.php">
-            <div class="slide slide-top">
-              <div class="slide-content">
-                <h3 >Guitar Chord Chart</h3>
-
-              </div>
-              <img src="/img/header.jpg" alt="" >
-            </div>
-
-          </a>
-
-        </div>
-  		</div>
-  	</div>
-  </div>
 
 
 </section>
-<!-- Learn Instruments -->
+<!-- NewsFeed -->
 
-<section class="third-section">
-<h3 class="a">Learn Instruments!</h3>
-  <div class="container-fluid ">
-  	<div class="row">
-  		<div class="col-md-3 col-sm-6 debs">
-        <div class="box">
-          <a href="/vidTemp.php?id=81">
-            <div class="slide slide-top">
-              <div class="slide-content">
-                <h3>Guitar</h3>
-
-              </div>
-              <img src="/img/guitar.jpg" alt="" >
-            </div>
-
-          </a>
-
-
-        </div>
-
-
-  		</div>
-  		<div class="col-md-3 col-sm-6 debs">
-        <div class="box">
-          <a href="/vidTemp.php?id=83">
-            <div class="slide slide-top">
-              <div class="slide-content">
-                <h3>Piano</h3>
-
-              </div>
-              <img src="/img/piano.jpg" alt="" >
-            </div>
-
-          </a>
-        </div>
-  		</div>
-  		<div class="col-md-3 col-sm-6 debs">
-        <div class="box">
-          <a href="/vidTemp.php?id=86">
-            <div class="slide slide-top">
-              <div class="slide-content">
-                <h3>Drums</h3>
-
-              </div>
-              <img src="/img/drums.jpg" alt="" >
-            </div>
-
-          </a>
-
-        </div>
-  		</div>
-  		<div class="col-md-3 col-sm-6 debs">
-        <div class="box">
-          <a href="/vidTemp.php?id=89">
-            <div class="slide slide-top">
-              <div class="slide-content">
-                <h3>Bass Guitar</h3>
-
-              </div>
-              <img src="/img/bass.jpg" alt="" >
-            </div>
-
-          </a>
-
-        </div>
-  		</div>
-  	</div>
-  </div>
+<section class="">
 
 
 </section>
@@ -310,13 +322,13 @@ include_once 'class.php';
         </div>
         <div class="footer2">
           <div class="row">
-    <div class="fots ">
+    <div class="fots  ">
 
       <div class="list-group " id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Explore</a>
         <a class="list-group-item list-group-item-action bg-dark text-light" href="#"  aria-controls="home">Home</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/contact.php"  aria-controls="messages">Message</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./contact.php"  aria-controls="messages">Message</a>
 
       </div>
     </div>
@@ -329,7 +341,7 @@ include_once 'class.php';
       </div>
       <div class="footer3">
         <div class="row">
-  <div class="fots  ">
+  <div class="fots ">
 
     <div class="list-group " id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Follow Us</a>
@@ -343,12 +355,12 @@ include_once 'class.php';
       </div>
       <div class="footer4">
         <div class="row">
-  <div class="fots legal  ">
+  <div class="fots  ">
 
     <div class="list-group " id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Legal</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light" href="/home.php"  aria-controls="home">Terms and Privacy</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Business</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light" href="./home.php"  aria-controls="home">Terms and Privacy</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Business</a>
 
 
     </div>
@@ -361,24 +373,61 @@ include_once 'class.php';
 
 </section>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
 <script>
 
+
 $( document ).ready(function() {
-<?php $music->register();
+  <?php $music->register();?>
+
+  var d = new Date();
+  var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
+  var n = strDate.search("/");
+  var date = strDate.slice(0,n);
+  $('#date').text(date);
 
 
-?>
-var d = new Date();
-var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
-var n = strDate.search("/");
-var date = strDate.slice(0,n);
-$('#date').text(date);
+  $('.like').click(function(e){
+    e.preventDefault();
+  var postid = $(this).attr('id');
+  $(this).addClass('hidden').removeClass('visible');
+  $('.unlike').addClass('visible').removeClass('hidden');
 
+alert("Sign in to Access!");
+
+  });
+  $('.unlike').click(function(e){
+    e.preventDefault();
+var postid = $(this).attr('id');
+$(this).addClass('hidden').removeClass('visible');
+$('.like').addClass('visible').removeClass('hidden');
+
+alert("Sign in to Access!");
+
+  });
+  $('#com-btn').hide();
+  $('#can-btn').hide();
+  $('#text-area').on('click',function(){
+    $('#com-btn').show();
+    $('#can-btn').show();
+  });
+  $('#can-btn').on('click',function(){
+    $('#com-btn').hide();
+    $('#can-btn').hide();
+
+  });
+  var cond = $('#comType');
+  var nema =$('#uid');
+  var text = $('#text-area');
+  //
+  $('#Video1').on('submit',function(e){
+    e.preventDefault();
+alert("You must be Signed in to Comment!");
+    });
 });
+
 </script>
   </body>
 </html>

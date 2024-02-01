@@ -3,13 +3,15 @@
 
 include_once 'class.php';
 $user = $music->get_user_data();
+if ($user['access']=="user") {
 
-if (!isset($user)) {
-  header("Location:/homez.php");
-
+  // code...
 }
+else {
+  header("Location:./about.php");
+}
+
 $music->upload();
-$music->clear_notif();
  ?>
 
 
@@ -26,43 +28,32 @@ $music->clear_notif();
 
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/css.css">
-    <style >
-      .img-gallery{
-        display: grid;
-        grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
-        grid-column-gap:10px;
-        grid-row-gap:10px;
-        margin-left: 3%;
-      }
-      .img-gallery img{
-        width: 100%;
-        height: 82%;
-      }
-      .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/css.css">
+<style media="screen">
+  .st{
+    background: #222831;
+    color: white;
+    line-height: 31px;
+    padding: 24px;
+  height: 25rem;
+  text-align: justify;
+text-justify: inter-word;
+  }
+  .zeze{
 
-}
-.pz{
 
-      font-size: 16px;
-      width: 50%;
-      text-align: justify;
-      color: black;
-      font-family: "Times New Roman", Times, serif;
-      line-height: 31px;
-
-}
+  }
 </style>
     <title>Musika Pinoy</title>
   </head>
   <body>
+
+
+    </div>
     <nav class="navbar navbar-expand-lg navbar-light nab sticky-top" >
     <div class="container">
-      <a class="navbar-brand" href="/userIndex.php" style="margin-top:10px;"> MUSIKA PINOY</a>
+      <a class="navbar-brand" href="./userIndex.php" style="margin-top:10px;"> MUSIKA PINOY</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -135,7 +126,7 @@ $music->clear_notif();
 
        </li>
           <li class="nav-item">
-        <a href="/userEdit.php?id=<?php echo$user['id']; ?>" class=" nav-link nab-links">Account </a>
+        <a href="./userEdit.php?id=<?php echo$user['id']; ?>" class=" nav-link nab-links">Account </a>
 
 
 
@@ -165,7 +156,7 @@ $music->clear_notif();
               foreach ($posts as $post) {
                 $wet=$music->get_notifA($post['post_id']);
                 echo "<li><hr class='dropdown-divider'></li>
-                <li><a class='dropdown-item' href='/videoTemp.php?id=$wet'>".$post['message']."  ".$post['date']."  </a></li>";
+                <li><a class='dropdown-item' href='./videoTemp.php?id=$wet'>".$post['message']."  ".$post['date']."  </a></li>";
 
 
 
@@ -187,7 +178,7 @@ $music->clear_notif();
       </li>
        <li class="nav-item">
 
-    <a href="/logout.php" class=" nav-link nab-links" onclick="return confirm('Are you Sure You Want To Log Out?')">Log Out</a>
+    <a href="./logout.php" class=" nav-link nab-links" onclick="return confirm('Are you Sure You Want To Log Out?')">Log Out</a>
 
 
        </li>
@@ -204,12 +195,11 @@ $music->clear_notif();
     </div>
     </nav>
     <div class="container-fluid">
-
 	<div class="row">
 		<div class="col-md-12 header">
 
       <div class="title">
-        <h1 class="align-middle">ONE SOUND ONE BAND ONE LOVE </h1>
+        <h1 class="align-middle">ABOUT US</h1>
       </div>
 
 		</div>
@@ -217,29 +207,27 @@ $music->clear_notif();
 
 </div>
 
-
 <section class="second-section">
-<!-- Categories -->
-<h3 class="a">Terms And Agreement</h3>
+  <!-- Categories -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 st">
+        <br>
+        <h3 align="center">CheezeWhich Band</h3>
+<p>
+in the year of 2019 cheeze which band is formed by Earist Students Who Aspire to become Known in the music industry And because of that dream we create a website to teach people who want to learn music for free so that we can inspire more musician and make OPM the best music of all</p>
+      </div>
+      <div class="col-md-6 zeze">
+<img class="img-fluid"src="./img/band.jpg" alt="">
+      </div>
+    </div>
 
-   <p class="pz center">This part is a mandatory Agreement for both developer & user to provide and understand information about website.  We will collect other information of user so we can monitor all activities that will happen in this website.
-The main goal of this website is to entertain all people that have interests in music and instrument. Some of you are curious about how instruments perform and sounds if you are playing with it. So, the reason why you need to read this part is to help you understand the do’s and don’ts and prevent to make phishing and other illegal doing.
-In this site, you can freely watch and explore any videos and data that are uploaded by other users or admin. But, if you want to upload or share your own video, you need to register and create your own account so the site will credit that uploaded data to you and to your account.
-If you want to create an account now, basically the site will ask your personal information like Personal Name, Age, Profile Picture, Address, Gmail or phone number to register so that we can assure your content and give credit to your account.
-But what if you don’t want to create account? Well you can’t upload, react, comment and share a content that are uploaded in this site because admins will not approve any actions that you want to do because you are an unidentified user.
-</p>
-
+  </div>
 
 
 </section>
-<!-- NewsFeed -->
+<!-- Learn Instruments -->
 
-
-
-
-
-
-<!-- NewsFeed -->
 
 
 
@@ -260,13 +248,13 @@ But what if you don’t want to create account? Well you can’t upload, react, 
         </div>
         <div class="footer2">
           <div class="row">
-    <div class="fots  ">
+    <div class="fots ">
 
       <div class="list-group " id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Explore</a>
         <a class="list-group-item list-group-item-action bg-dark text-light" href="#"  aria-controls="home">Home</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/aboutUser.php"  aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/contactUser.php"  aria-controls="messages">Message</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./contact.php"  aria-controls="messages">Message</a>
 
       </div>
     </div>
@@ -279,7 +267,7 @@ But what if you don’t want to create account? Well you can’t upload, react, 
       </div>
       <div class="footer3">
         <div class="row">
-  <div class="fots ">
+  <div class="fots  ">
 
     <div class="list-group " id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Follow Us</a>
@@ -293,12 +281,12 @@ But what if you don’t want to create account? Well you can’t upload, react, 
       </div>
       <div class="footer4">
         <div class="row">
-  <div class="fots  ">
+  <div class="fots legal  ">
 
     <div class="list-group " id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Legal</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light" href="/home.php"  aria-controls="home">Terms and Privacy</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Business</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light" href="./home.php"  aria-controls="home">Terms and Privacy</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Business</a>
 
 
     </div>
@@ -310,41 +298,40 @@ But what if you don’t want to create account? Well you can’t upload, react, 
 </div>
 
 </section>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script>
 
 $( document ).ready(function() {
-  var d = new Date();
-  var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
-  var n = strDate.search("/");
-  var date = strDate.slice(0,n);
-  $('#date').text(date);
+
+var d = new Date();
+var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
+var n = strDate.search("/");
+var date = strDate.slice(0,n);
+$('#date').text(date);
+$('.notifclear').on('submit',function(e){
+    e.preventDefault();
+    var user_id=$(this).attr('id');
+    $.ajax({
+      type:'post',
+      url:'userIndex.php',
+      data:{idz:user_id},
+      success:function(res){
+        var str = res.search("<!");
+        var sliced = res.slice(0,str);
+        $('#trs').html(sliced);
+          document.getElementsByClassName('zz')[0].textContent = '0 Notification';
+      }
+
+    })
 
 
-  $('.notifclear').on('submit',function(e){
-      e.preventDefault();
-      var user_id=$(this).attr('id');
-      $.ajax({
-        type:'post',
-        url:'userIndex.php',
-        data:{idz:user_id},
-        success:function(res){
-          var str = res.search("<!");
-          var sliced = res.slice(0,str);
-          $('#trs').html(sliced);
-            document.getElementsByClassName('zz')[0].textContent = '0 Notification';
-        }
-
-      })
 
 
-
-
-  });
-
+});
 });
 </script>
   </body>

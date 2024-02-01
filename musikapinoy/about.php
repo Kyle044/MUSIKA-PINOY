@@ -20,14 +20,21 @@ include_once 'class.php';
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/css.css">
-<style >
-.center {
-display: block;
-margin-left: auto;
-margin-right: auto;
+    <link rel="stylesheet" href="./css/css.css">
+<style media="screen">
+  .st{
+    background: #222831;
+    color: white;
+    line-height: 31px;
+    padding: 24px;
+  height: 25rem;
+  text-align: justify;
+text-justify: inter-word;
+  }
+  .zeze{
 
-}
+
+  }
 </style>
     <title>Musika Pinoy</title>
   </head>
@@ -37,7 +44,7 @@ margin-right: auto;
     </div>
     <nav class="navbar navbar-expand-lg navbar-light nab sticky-top" >
     <div class="container">
-      <a class="navbar-brand" href="index.php" style="margin-top:10px;"> MUSIKA PINOY</a>
+      <a class="navbar-brand" href="./index.php" style="margin-top:10px;"> MUSIKA PINOY</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -141,7 +148,7 @@ margin-right: auto;
 		<div class="col-md-12 header">
 
       <div class="title">
-        <h1 class="align-middle">ONE SOUND ONE BAND ONE LOVE</h1>
+        <h1 class="align-middle">ABOUT US</h1>
       </div>
 
 		</div>
@@ -151,15 +158,24 @@ margin-right: auto;
 
 <section class="second-section">
   <!-- Categories -->
-  <h3 class="a">Guitar Chord Chart!</h3>
-  <img src="img/chart.jpg" alt="" class="img-fluid center">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 st">
+        <br>
+        <h3 align="center">CheezeWhich Band</h3>
+<p>
+in the year of 2019 cheeze which band is formed by Earist Students Who Aspire to become Known in the music industry And because of that dream we create a website to teach people who want to learn music for free so that we can inspire more musician and make OPM the best music of all</p>
+      </div>
+      <div class="col-md-6 zeze">
+<img class="img-fluid"src="./img/band.jpg" alt="">
+      </div>
+    </div>
+
+  </div>
 
 
 </section>
 <!-- Learn Instruments -->
-
-
-
 
 
 
@@ -186,8 +202,8 @@ margin-right: auto;
       <div class="list-group " id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Explore</a>
         <a class="list-group-item list-group-item-action bg-dark text-light" href="#"  aria-controls="home">Home</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="about.php"  aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="contact.php"  aria-controls="messages">Message</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./contact.php"  aria-controls="messages">Message</a>
 
       </div>
     </div>
@@ -218,8 +234,8 @@ margin-right: auto;
 
     <div class="list-group " id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Legal</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light" href="home.php"  aria-controls="home">Terms and Privacy</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light"  href="about.php"  aria-controls="profile">Business</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light" href="./home.php"  aria-controls="home">Terms and Privacy</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Business</a>
 
 
     </div>

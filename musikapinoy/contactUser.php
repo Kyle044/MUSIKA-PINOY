@@ -2,16 +2,16 @@
 <?php
 
 include_once 'class.php';
+
 $user = $music->get_user_data();
-if ($user['access']=="user") {
 
-  // code...
-}
-else {
-  header("Location:/about.php");
-}
+if (!isset($user)) {
+  header("Location:./index.php");
 
+}
 $music->upload();
+$music->clear_notif();
+$music->contact();
  ?>
 
 
@@ -29,16 +29,15 @@ $music->upload();
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/css.css">
+    <link rel="stylesheet" href="./css/css.css">
 <style media="screen">
   .st{
     background: #222831;
     color: white;
-    line-height: 31px;
+
     padding: 24px;
   height: 25rem;
-  text-align: justify;
-text-justify: inter-word;
+
   }
   .zeze{
 
@@ -53,7 +52,7 @@ text-justify: inter-word;
     </div>
     <nav class="navbar navbar-expand-lg navbar-light nab sticky-top" >
     <div class="container">
-      <a class="navbar-brand" href="/userIndex.php" style="margin-top:10px;"> MUSIKA PINOY</a>
+      <a class="navbar-brand" href="./userIndex.php" style="margin-top:10px;"> MUSIKA PINOY</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -126,7 +125,7 @@ text-justify: inter-word;
 
        </li>
           <li class="nav-item">
-        <a href="/userEdit.php?id=<?php echo$user['id']; ?>" class=" nav-link nab-links">Account </a>
+        <a href="./userEdit.php?id=<?php echo$user['id']; ?>" class=" nav-link nab-links">Account </a>
 
 
 
@@ -156,7 +155,7 @@ text-justify: inter-word;
               foreach ($posts as $post) {
                 $wet=$music->get_notifA($post['post_id']);
                 echo "<li><hr class='dropdown-divider'></li>
-                <li><a class='dropdown-item' href='/videoTemp.php?id=$wet'>".$post['message']."  ".$post['date']."  </a></li>";
+                <li><a class='dropdown-item' href='./videoTemp.php?id=$wet'>".$post['message']."  ".$post['date']."  </a></li>";
 
 
 
@@ -178,7 +177,7 @@ text-justify: inter-word;
       </li>
        <li class="nav-item">
 
-    <a href="/logout.php" class=" nav-link nab-links" onclick="return confirm('Are you Sure You Want To Log Out?')">Log Out</a>
+    <a href="./logout.php" class=" nav-link nab-links" onclick="return confirm('Are you Sure You Want To Log Out?')">Log Out</a>
 
 
        </li>
@@ -199,7 +198,7 @@ text-justify: inter-word;
 		<div class="col-md-12 header">
 
       <div class="title">
-        <h1 class="align-middle">ABOUT US</h1>
+        <h1 class="align-middle">CONTACT US</h1>
       </div>
 
 		</div>
@@ -213,12 +212,23 @@ text-justify: inter-word;
     <div class="row">
       <div class="col-md-6 st">
         <br>
-        <h3 align="center">CheezeWhich Band</h3>
-<p>
-in the year of 2019 cheeze which band is formed by Earist Students Who Aspire to become Known in the music industry And because of that dream we create a website to teach people who want to learn music for free so that we can inspire more musician and make OPM the best music of all</p>
+        <h3 align="center">Contact Us!</h3>
+        <form class="" action="" method="post" id="wawa">
+          <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+  </div>
+  <button type="submit" name="button" class="btn btn-light">Submit</button>
+        </form>
+
+
       </div>
       <div class="col-md-6 zeze">
-<img class="img-fluid"src="/img/band.jpg" alt="">
+<div class="mapouter"><div class="gmap_canvas"><iframe width="563" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=Barangay%20Lantic%20Carmona%20Cavite&t=&z=11&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://yt2.org"></a><br><style>.mapouter{position:relative;text-align:right;height:500px;width:563px;}</style><style>.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:563px;}</style></div></div>
       </div>
     </div>
 
@@ -312,6 +322,34 @@ var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
 var n = strDate.search("/");
 var date = strDate.slice(0,n);
 $('#date').text(date);
+
+var em = $('#exampleFormControlInput1');
+var txt = $('#exampleFormControlTextarea1');
+$('#wawa').on('submit',function(e){
+e.preventDefault();
+$.ajax({
+
+type:'post',
+url:'contact.php',
+data:{sub:1,ems:em.val(),mes:txt.val()},
+success:function(res){
+  var a = res.search("<!");
+  var b = res.slice(0,a);
+alert(b);
+
+}
+
+
+
+
+})
+
+
+
+
+
+
+});
 $('.notifclear').on('submit',function(e){
     e.preventDefault();
     var user_id=$(this).attr('id');
@@ -332,6 +370,9 @@ $('.notifclear').on('submit',function(e){
 
 
 });
+
+
+
 });
 </script>
   </body>

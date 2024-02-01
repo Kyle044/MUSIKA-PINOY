@@ -4,11 +4,11 @@
 include_once 'class.php';
 $user = $music->get_user_data();
 if (!isset($user)) {
-  header("Location:/index.php");
+  header("Location:./index.php");
 
 }
 if ($user['access']!="admin") {
-    header("Location:/index.php");
+    header("Location:./index.php");
 }
 
 $music->upload();
@@ -33,7 +33,7 @@ $music->delete();
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/css.css">
+    <link rel="stylesheet" href="./css/css.css">
 
     <title>Musika Pinoy</title>
   </head>
@@ -113,14 +113,14 @@ $music->delete();
 
        </li>
           <li class="nav-item">
-        <a href="/practice.php" id="export" class=" nav-link nab-links">Export Database </a>
+        <a href="./practice.php" id="export" class=" nav-link nab-links">Export Database </a>
 
 
 
 
        </li>
        <li class="nav-item">
-     <a href="/aMess.php" id="export" class=" nav-link nab-links">Messages</a>
+     <a href="./aMess.php" id="export" class=" nav-link nab-links">Messages</a>
 
 
 
@@ -222,7 +222,7 @@ $length=6;
                                               width: 475px;
                                               height: 285px;
                                               '>
-                               <source src='/post/".$post['fileName']."' type='video/mp4'>
+                               <source src='./post/".$post['fileName']."' type='video/mp4'>
                              </video>
                            </div>
                          </div>
@@ -314,8 +314,8 @@ $length=6;
       <div class="list-group " id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Explore</a>
         <a class="list-group-item list-group-item-action bg-dark text-light" href="#"  aria-controls="home">Home</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/contact.php"  aria-controls="messages">Message</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./contact.php"  aria-controls="messages">Message</a>
 
       </div>
     </div>
@@ -346,8 +346,8 @@ $length=6;
 
     <div class="list-group " id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Legal</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light" href="/home.php"  aria-controls="home">Terms and Privacy</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Business</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light" href="./home.php"  aria-controls="home">Terms and Privacy</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Business</a>
 
 
     </div>

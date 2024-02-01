@@ -3,14 +3,17 @@
 
 include_once 'class.php';
 $user = $music->get_user_data();
-$id = $_GET['search'];
-
 if (!isset($user)) {
-  header("Location:/search.php?id=$id");
+  header("Location:./index.php");
 
 }
+if ($user['access']!="admin") {
+    header("Location:./index.php");
+}
+
 $music->upload();
-$music->clear_notif();
+$music->deletez();
+$music->reply();
  ?>
 
 
@@ -28,26 +31,14 @@ $music->clear_notif();
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/css.css">
-<style >
-  .img-gallery{
-    display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
-    grid-column-gap:10px;
-    grid-row-gap:10px;
-    margin-left: 3%;
-  }
-  .img-gallery img{
-    width: 100%;
-    height: 82%;
-  }
-</style>
+    <link rel="stylesheet" href="./css/css.css">
+
     <title>Musika Pinoy</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light nab" >
+    <nav class="navbar navbar-expand-lg navbar-light nab sticky-top" >
     <div class="container">
-      <a class="navbar-brand" href="/userIndex.php" style="margin-top:10px;"> MUSIKA PINOY</a>
+      <a class="navbar-brand" href="./adminIndex.php" style="margin-top:10px;"> MUSIKA PINOY</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -86,10 +77,10 @@ $music->clear_notif();
                   <option value="Guitar">Guitar</option>
                   <option value="Piano">Piano</option>
                   <option value="Drums">Drums</option>
-                    <option value="Bass">Bass</option>
-                    <option value="performance">Performance</option>
-                    <option value="theory">Music Theory</option>
-                      <option value="songlesson">Video Song Lesson</option>
+                  <option value="Bass">Bass</option>
+                  <option value="SongLesson">Song Lesson</option>
+                <option value="MusicTheory">Music Theory</option>
+                <option value="Performance">Performance</option>
                 </select>
 
 
@@ -120,58 +111,22 @@ $music->clear_notif();
 
        </li>
           <li class="nav-item">
-        <a href="#" class=" nav-link nab-links">Account</a>
+        <a href="./practice.php" id="export" class=" nav-link nab-links">Export Database </a>
 
 
 
 
        </li>
-       <li class= 'nav-item dropdown'>
-        <a class='nav-link dropdown-toggle zz' href='#' id='navbarDropdown' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
-           Notification
-        </a>
-        <ul class='dropdown-menu' aria-labelledby='navbarDropdown'id='trs'>
-
-
-          <?php
-            $connection=  $music->openConnection();
-            $stmtz = $connection->prepare("SELECT * FROM notiftbl WHERE user_id = ?  ORDER BY date DESC LIMIT 7");
-            $stmtz->execute([$user['id']]);
-            $posts = $stmtz->fetchAll();
-
-
-            $userCount = $stmtz->rowCount();
-            if ($userCount > 0)
-            {
-              echo "<script>
-            document.getElementsByClassName('zz')[0].textContent = '$userCount Notification';
-              </script>";
-              foreach ($posts as $post) {
-                $wet=$music->get_notifA($post['post_id']);
-                echo "<li><hr class='dropdown-divider'></li>
-                <li><a class='dropdown-item' href='/videoTemp.php?id=$wet'>".$post['message']."  ".$post['date']."  </a></li>";
+       <li class="nav-item">
+     <a href="./aMess.php" id="export" class=" nav-link nab-links">Messages</a>
 
 
 
-              }
-              echo " <form  action='userIndex.php' class='notifclear' id='".$user['id']."'method='post' align='right'>
-                 <button type='submit' class='btn btn-dark' style='        margin-right: 1vw;margin-top: 2vw; margin-bottom: 1vw;'>Clear</button>
-               </form>";
-        }
-        else {
-          echo "<script>
-        document.getElementsByClassName('zz')[0].textContent = '0 Notification';
-          </script>";
-          echo "There is none";
-        }
 
-           ?>
-
-        </ul>
-      </li>
+    </li>
        <li class="nav-item">
 
-    <a href="/logout.php" class=" nav-link nab-links" onclick="return confirm('Are you Sure You Want To Log Out?')">Log Out</a>
+    <a href="./logout.php" class=" nav-link nab-links" onclick="return confirm('Are you Sure You Want To Log Out?')">Log Out</a>
 
 
        </li>
@@ -191,74 +146,107 @@ $music->clear_notif();
 
 	<div class="row">
 		<div class="col-md-12 header">
-<div class="title">
-  <h1>Search Result</h1>
-</div>
 
-
+      <div class="title">
+        <h1 class="align-middle">Welcome <?php echo$user['name']; ?></h1>
       </div>
-		</div>
 
+		</div>
 	</div>
 
 </div>
 
 
 <section class="second-section">
-  <div class="img-gallery" align='center'>
+<!-- Categories -->
+<h3 class="a">Table of Messages!</h3>
+<div class="container ">
 
+  <table class="table table-dark">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Message</th>
+        <th scope="col">Date</th>
 
-
-
-  <?php
-  $id="%$id%";
-  $connection = $music->openConnection();
-  $stmt = $connection->prepare("SELECT * FROM aposttbl WHERE postName  LIKE ?  ");
-  $stmt->execute([$id]);
-  $users = $stmt->fetchAll();
-  $userCount = $stmt->rowCount();
-  if ($userCount > 0)
-  {
-    foreach ($users as $user) {
-      echo "  <div class='card text-light bg-dark' style='width: 18rem;'>
-    <img src='/thumbnail/".$user['thumbnail']."' class='card-img-top' alt='...'>
-    <div class='card-body'>
-      <h5 class='card-title'>".$user['postName']."</h5>
-      <p class='card-text'>".$user['description']."</p>
-      <a href='/videoTemp.php?id=".$user['apost_id']."' class='btn btn-light'>Watch</a>
-    </div>
-  </div>"
-      ;
+        <th scope="col">Options</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody id="target1">
+      <?php
+      $permitted_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      function generate_string($input, $strength = 5) {
+    $input_length = strlen($input);
+    $random_string = '';
+    for($i = 0; $i < $strength; $i++) {
+        $random_character = $input[mt_rand(0, $input_length - 1)];
+        $random_string .= $random_character;
     }
-  }
-  else
-  {
-    echo "<h1 style='color:white;'> WALA</h1>";
-  }
+
+    return $random_string;
+}
+$length=6;
+      $connection= $music->openConnection();
+
+      $stmt = $connection->prepare("SELECT * FROM messtbl");
+        $stmt->execute();
+        $posts = $stmt->fetchAll();
+        $userCount = $stmt->rowCount();
+        if ($userCount > 0)
+        {
+          foreach ($posts as $post) {
+          $id =   generate_string($permitted_chars,$length).$post['id'];
+              echo "    <tr>
+                  <th scope='row'>".$post['id']."</th>
+                  <td>".$post['name']."</td>
+                  <td>".$post['message']."</td>
+                  <td>".$post['date']."</td>
 
 
-   ?>
+                  <td> <p><button class='btn btn-light' type='button' data-bs-toggle='collapse' data-bs-target='#".$id."' aria-expanded='false' aria-controls='collapseExample'>
+                        Reply
+                      </button>
+                      </p>
+                      <div class='collapse' id='".$id."'>
+                         <div class='card card-body'>
+                         <form action=''method='post' id = '".$post['id']."' class='rep'>
+                           <div class='mb-3'>
+                             <label for='exampleFormControlTextarea1' class='form-label'>TYPE SOME REPLY</label>
+                             <textarea class='form-control' class='value' rows='3'></textarea>
+                           </div>
+                           <button type='submit'  class='btn btn-dark'> Reply </button>
+                         </form>
+                         </div>
+             </div></td>
+
+
+            <td><form  action='' method='post' class='dec' id='".$post['id']."'>
+
+          <button type='submit' class='btn btn-danger' '>Delete</button>
+            </form>
+
+                </tr>";
+          }
+        }
+
+       ?>
+
+
+    </tbody>
+  </table>
+
+
+
 
 </div>
 
 
-
-
-
-
-
-</div>
-
-
-
 </section>
-<!-- NewsFeed -->
-
-<section class="third-section">
+<center><button  style="text-align:center;" type="button" onclick="window.print()" name="button" class="btn btn-success">Print</button></center>
 
 
-
-</section>
 
 
 
@@ -287,9 +275,8 @@ $music->clear_notif();
       <div class="list-group " id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Explore</a>
         <a class="list-group-item list-group-item-action bg-dark text-light" href="#"  aria-controls="home">Home</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/aboutUser.php"  aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/contactUser.php"  aria-controls="messages">Message</a>
-
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./contact.php"  aria-controls="messages">Message</a>
 
       </div>
     </div>
@@ -320,8 +307,8 @@ $music->clear_notif();
 
     <div class="list-group " id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Legal</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light" href="/home.php"  aria-controls="home">Terms and Privacy</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Business</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light" href="./home.php"  aria-controls="home">Terms and Privacy</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Business</a>
 
 
     </div>
@@ -333,10 +320,12 @@ $music->clear_notif();
 </div>
 
 </section>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
 <script>
+
 
 $( document ).ready(function() {
   var d = new Date();
@@ -345,27 +334,133 @@ $( document ).ready(function() {
   var date = strDate.slice(0,n);
   $('#date').text(date);
 
-  $('.notifclear').on('submit',function(e){
-      e.preventDefault();
-      var user_id=$(this).attr('id');
-      $.ajax({
-        type:'post',
-        url:'userIndex.php',
-        data:{idz:user_id},
-        success:function(res){
-          var str = res.search("<!");
-          var sliced = res.slice(0,str);
-          $('#trs').html(sliced);
-            document.getElementsByClassName('zz')[0].textContent = '0 Notification';
+  $(document).on("submit", ".aps", function (e) {
+
+    e.preventDefault();
+    var post_id = $(this).attr('id');
+
+
+  // Save it!
+  $.ajax({
+    type:'POST',
+
+    url:'aMess.php',
+    data:{apr:post_id},
+
+    success:function(res){
+      var lastindex = res.search("<!doctype");
+      var data = res.slice(0,lastindex);
+        $('#target1').html(data);
+
+
+
+
+
+
+
+      }
+  })
+
+
+
+
+     });
+
+     $(document).on("submit", ".rep", function (e) {
+
+       e.preventDefault();
+       var post_id = $(this).attr('id');
+       var mess = $(this).find("textarea").val();
+
+
+     // Save it!
+     $.ajax({
+       type:'POST',
+
+       url:'aMess.php',
+       data:{repz:post_id,mess:mess},
+
+       success:function(res){
+         var lastindex = res.search("<!doctype");
+         var data = res.slice(0,lastindex);
+         alert(data);
+
+
+
+
+
+
+
+         }
+     })
+
+
+
+
+        });
+
+     $(document).on("submit", ".dec", function (e) {
+
+       e.preventDefault();
+       var post_id = $(this).attr('id');
+
+       if (confirm('Are you sure you want to Delete the Message?')) {
+     // Save it!
+     $.ajax({
+       type:'POST',
+       url:'aMess.php',
+       data:{decs:post_id},
+       success:function(res){
+         var lastindex = res.search("<!doctype");
+         var data = res.slice(0,lastindex);
+
+    $('#target1').html(data);
+
+
+         }
+     })
+
+   }
+       else {
+         // Do nothing!
+         console.log('This thing was not declined.');
+       }
+
+        });
+
+
+
+        $(document).on("submit", ".del", function (e) {
+
+          e.preventDefault();
+          var post_id = $(this).attr('id');
+
+          if (confirm('Are you sure you want to delete this to the website?')) {
+        // Save it!
+        $.ajax({
+          type:'POST',
+          url:'aMess.php',
+          data:{del:post_id},
+          success:function(res){
+            var lastindex = res.search("<!doctype");
+            var datas = res.slice(0,lastindex);
+              $('#fuck').html(datas);}
+        })
+
         }
+          else {
+            // Do nothing!
+            console.log('Nothing Happened.');
+          }
 
-      })
+           });
 
 
 
 
-  });
+
 });
+
 </script>
   </body>
 </html>

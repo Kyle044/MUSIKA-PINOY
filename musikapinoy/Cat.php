@@ -3,19 +3,7 @@
 
 include_once 'class.php';
 
-
-if (isset($_GET['id'])) {
-$id=$_GET['id'];
-if ($music->check_userz_exist($id)==1) {
-
-}
-else{
-  header("Location:/Page404.php");
-}
-
-
-
-}
+$id = $_GET['cat'];
 
 
 $user = "user";
@@ -24,8 +12,9 @@ if ($user=="user") {
 
 }
 else {
-  header("Location:/accDash.php?id=$id");
+  header("Location:./searchUser.php?id=$id");
 }
+
 
  ?>
 
@@ -44,27 +33,27 @@ else {
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/css.css">
-    <style >
-      .img-gallery{
-        display: grid;
-        grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
-        grid-column-gap:10px;
-        grid-row-gap:10px;
-            margin-left: 3%;
-      }
-      .img-gallery  img{
-        width: 100%;
-        height: 82%;
-      }
-      </style>
+    <link rel="stylesheet" href="./css/css.css">
+<style >
+  .img-gallery{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+    grid-column-gap:10px;
+    grid-row-gap:10px;
+    margin-left: 3%;
+  }
+  .img-gallery img{
+    width: 100%;
+    height: 82%;
+  }
+</style>
     <title>Musika Pinoy</title>
   </head>
   <body>
-    <?php   $music->login(); ?>
+      <?php   $music->login(); ?>
     <nav class="navbar navbar-expand-lg navbar-light nab sticky-top" >
     <div class="container">
-      <a class="navbar-brand" href="/index.php" style="margin-top:10px;"> MUSIKA PINOY</a>
+      <a class="navbar-brand" href="./index.php" style="margin-top:10px;"> MUSIKA PINOY</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -81,28 +70,28 @@ else {
               <div class="modalz_content">
                 <h3>Login</h3>
                 <form method="post" >
-  <div class="form-group">
+<div class="form-group">
   <label for="exampleInputEmail1">Email address</label>
   <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="ems">
   <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-  </div>
-  <div class="form-group">
+</div>
+<div class="form-group">
   <label for="exampleInputPassword1">Password</label>
   <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="pass">
-  </div>
-  <div class="form-group">
+</div>
+<div class="form-group">
   <div class="form-check">
     <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
     <label class="form-check-label" for="invalidCheck2">
       Agree to terms and conditions
     </label>
   </div>
-  </div>
+</div>
     <button type="button" class="btn btn-primary">  <label for="click">Close</label></button>
-  <button type="submit" class="btn btn-primary"name="log-sbm">Submit</button>
+<button type="submit" class="btn btn-primary"name="log-sbm">Submit</button>
 
 
-  </form>
+</form>
 
               </div>
             </div>
@@ -143,7 +132,7 @@ else {
    </div>
       <button type="button" class="btn btn-primary">  <label for="clicks">Close</label></button>
    <button type="submit" class="btn btn-primary" name="submit">Register</button>
-  </form>
+ </form>
 
            </div>
          </div>
@@ -166,42 +155,11 @@ else {
     <div class="container-fluid">
 
 	<div class="row">
-		<div class="col-md-12 header">
+    <div class="col-md-12 header">
+<div class="title">
+  <h1>Videos</h1>
+</div>
 
-      <div style="     height: 55%;
-    display: flex;
-    margin-top: 5%;
-    align-content: center;
-    justify-content: center;" >
-<img src="/img/user.png" class="rounded float-start img-fluid align-middle" alt="..."><br/>
-
-      </div>
-      <div class="col-md-12 ">
-
-        <div style="     height: 55%;
-      display: flex;
-      margin-top: 1%;
-      align-content: center;
-      justify-content: center; color:white;" >
-    <h1><?php
-    $connection=$music->openConnection();
-    $stmt = $connection->prepare("SELECT * FROM aposttbl WHERE uid=?  ");
-    $stmt->execute([$id]);
-    $users = $stmt->fetch();
-    $userCount = $stmt->rowCount();
-    if ($userCount > 0)
-    {
-      echo $users['name'];
-    }
-    else
-    {
-        echo "User";
-    }
-
-
-     ?></h1>
-
-        </div>
 
       </div>
 		</div>
@@ -212,43 +170,51 @@ else {
 
 
 <section class="second-section">
-<h3 class="a">Uploads</h3>
-<div class="img-gallery">
+  <div class="img-gallery" align='center'>
 
-<?php
 
-$connection=$music->openConnection();
-$stmt = $connection->prepare("SELECT * FROM aposttbl WHERE uid=?  ");
-$stmt->execute([$id]);
-$users = $stmt->fetchAll();
-$userCount = $stmt->rowCount();
-if ($userCount > 0)
-{
-  foreach ($users as $user) {
-    echo "  <div class='card text-white bg-dark' style='width: 18rem;'>
-  <img src='/thumbnail/".$user['thumbnail']."' class='card-img-top' alt='...'>
-  <div class='card-body'>
-    <h5 class='card-title'>".$user['postName']."</h5>
-    <p class='card-text'>".$user['description']."</p>
-    <a href='/videoTemp.php?id=".$user['apost_id']."' class='btn btn-light'>Watch</a>
-  </div>
-</div>"
-    ;
+
+
+  <?php
+  $name = "%$id%";
+  $connection = $music->openConnection();
+  $stmt = $connection->prepare("SELECT * FROM aposttbl WHERE category  LIKE ?  ");
+  $stmt->execute([$name]);
+  $users = $stmt->fetchAll();
+  $userCount = $stmt->rowCount();
+  if ($userCount > 0)
+  {
+    foreach ($users as $user) {
+      echo "  <div class='card text-light bg-dark' style='width: 18rem;'>
+    <img src='./thumbnail/".$user['thumbnail']."' class='card-img-top' alt='...'>
+    <div class='card-body'>
+      <h5 class='card-title'>".$user['postName']."</h5>
+      <p class='card-text'>".$user['description']."</p>
+      <a href='./vidTemp.php?id=".$user['apost_id']."' class='btn btn-light'>Watch</a>
+    </div>
+  </div>"
+      ;
+    }
   }
-}
-else
-{
-    return 0;
-}
+  else
+  {
+    echo "<h1 style='color:black;' align='center'>The Result is None.</h1>";
+  }
 
 
- ?>
+   ?>
+
+</div>
+
+
 
 
 
 
 
 </div>
+
+
 
 </section>
 <!-- NewsFeed -->
@@ -286,8 +252,8 @@ else
       <div class="list-group " id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Explore</a>
         <a class="list-group-item list-group-item-action bg-dark text-light" href="#"  aria-controls="home">Home</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/contact.php"  aria-controls="messages">Message</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./contact.php"  aria-controls="messages">Message</a>
 
       </div>
     </div>
@@ -318,8 +284,8 @@ else
 
     <div class="list-group " id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Legal</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light" href="/home.php"  aria-controls="home">Terms and Privacy</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Business</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light" href="./home.php"  aria-controls="home">Terms and Privacy</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Business</a>
 
 
     </div>
@@ -336,10 +302,11 @@ else
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script>
 
-$( document ).ready(function() {<?php $music->register();
+$( document ).ready(function() {
+  <?php $music->register();
 
 
-?>
+  ?>
   var d = new Date();
   var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
   var n = strDate.search("/");

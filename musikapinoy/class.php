@@ -2,8 +2,8 @@
 class myMusic
 {
     private $server = "mysql:host=localhost; dbname=newmusicdb";
-    private $user = 'webdataweb';
-    private $pass = 'HXe4WRwFE497CmG';
+    private $user = 'root';
+    private $pass = '';
     private $options = array(
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
@@ -53,7 +53,7 @@ public function register(){
   if (isset($_POST['submit'])) {
 
     if ($_POST['confirm_password']!=$_POST['password']) {
-      echo "alert('Password Doesnt Match'); window.location.replace('/index.php');";
+      echo "alert('Password Doesnt Match'); window.location.replace('./index.php');";
 
     }
     else{
@@ -67,13 +67,13 @@ public function register(){
         $access="user";
       }
       if ($this->check_user_exist($email)>0) {
-        echo "alert('Email Already Exist'); window.location.replace('/index.php');";
+        echo "alert('Email Already Exist'); window.location.replace('./index.php');";
       }
       else{
         $connection = $this->openConnection();
         $stmt = $connection->prepare("INSERT INTO users (email,name,password,access)VALUES(?,?,?,?)");
         $stmt->execute([$email,$name,md5($password),$access]);
-          echo "alert('Registered Successfuly!'); window.location.replace('/index.php');";
+          echo "alert('Registered Successfuly!'); window.location.replace('./index.php');";
       }
 
     }
@@ -113,10 +113,10 @@ public function login(){
             $this->set_user_data($users['id'],$users['name'],$users['email'],$users['access']);
             if ($users['access']=="admin") {
 
-                      header("Location:/adminIndex.php");
+                      header("Location:./adminIndex.php");
             }
             else {
-                  header("Location:/userIndex.php");
+                  header("Location:./userIndex.php");
             }
 
 
@@ -197,27 +197,27 @@ public function upload(){
                   }
                   echo "<script>
             alert('Post Success! Wait for it to be Approved by the Admin!');
-            window.location.replace(' /userIndex.php');
+            window.location.replace('./userIndex.php');
           </script>";
 
                 }
                 else {
                   echo "<script>
             alert('Your File is too Big.');
-  window.location.replace(' /userIndex.php');
+  window.location.replace('./userIndex.php');
           </script>";
                 }
             }
             else {
               echo "<script>
         alert('There was an error uploading your file.');
-  window.location.replace('/userIndex.php');
+  window.location.replace('./userIndex.php');
       </script>";
             }
           }else {
             echo "<script>
       alert('This type of file is not allowed.');
-  window.location.replace(' /userIndex.php');
+  window.location.replace('./userIndex.php');
     </script>";
           }
 
@@ -264,7 +264,7 @@ public function get_post(){
                                               width: 475px;
                                               height: 285px;
                                               '>
-                               <source src='/post/".$post['fileName']."' type='video/mp4'>
+                               <source src='./post/".$post['fileName']."' type='video/mp4'>
                              </video>
                            </div>
                          </div>
@@ -317,7 +317,7 @@ public function get_apost(){
 
 
 
-                                echo"              width: 475px;   height: 285px;   '> <source src='/post/".$post['fileName']."' type='video/mp4'>   </video>   </div></div> </div>  </td>  <td><div class='boton'><form  action='' method='post' class='del' id='".$post['apost_id']."'>    <button type='submit'  class='btn btn-danger' style='margin-right:10px;'>Delete</button></form></div></td>  </tr>";
+                                echo"              width: 475px;   height: 285px;   '> <source src='./post/".$post['fileName']."' type='video/mp4'>   </video>   </div></div> </div>  </td>  <td><div class='boton'><form  action='' method='post' class='del' id='".$post['apost_id']."'>    <button type='submit'  class='btn btn-danger' style='margin-right:10px;'>Delete</button></form></div></td>  </tr>";
 
 
 
@@ -577,11 +577,11 @@ public function getUsersPost($w)
     if ($userCount > 0)
     {
       foreach ($users as $user) {
-          echo "  <a href='/videoTemp.php?id=".$user['apost_id']."' style='text-decoration:none; color:black;'>
+          echo "  <a href='./videoTemp.php?id=".$user['apost_id']."' style='text-decoration:none; color:black;'>
             <div class='card mb-3' style='max-width: 540px;'>
       <div class='row g-0'>
         <div class='col-md-4' style='height:28vh;'>
-          <img src='/thumbnail/".$user['thumbnail']."' alt='...' style='width: 100%;
+          <img src='./thumbnail/".$user['thumbnail']."' alt='...' style='width: 100%;
   height:100%;
  object-fit:cover;'>
         </div>
@@ -612,11 +612,11 @@ public function getUsersPosts($w)
     if ($userCount > 0)
     {
       foreach ($users as $user) {
-          echo "  <a href='/vidTemp.php?id=".$user['apost_id']."' style='text-decoration:none; color:black;'>
+          echo "  <a href='./vidTemp.php?id=".$user['apost_id']."' style='text-decoration:none; color:black;'>
             <div class='card mb-3' style='max-width: 540px;'>
       <div class='row g-0'>
         <div class='col-md-4' style='height:28vh;'>
-          <img src='/thumbnail/".$user['thumbnail']."' alt='...' style='width: 100%;
+          <img src='./thumbnail/".$user['thumbnail']."' alt='...' style='width: 100%;
   height:100%;
  object-fit:cover;'>
         </div>
@@ -707,11 +707,11 @@ public function delete_post($id){
       {
         foreach ($users as $user) {
           echo "  <div class='card text-white bg-dark' style='width: 18rem;'>
-        <img src='/thumbnail/".$user['thumbnail']."' class='card-img-top' alt='...'>
+        <img src='./thumbnail/".$user['thumbnail']."' class='card-img-top' alt='...'>
         <div class='card-body'>
           <h5 class='card-title'>".$user['postName']."</h5>
           <p class='card-text'>".$user['description']."</p>
-          <a href='/videoTemp.php?id=".$user['apost_id']."' class='btn btn-light'>Watch</a>
+          <a href='./videoTemp.php?id=".$user['apost_id']."' class='btn btn-light'>Watch</a>
           <form action='' method='post' id='".$user['apost_id']."' class='watwat'>
 
               <button type='submit' class='btn btn-light'  >Delete Post</button>
@@ -777,7 +777,7 @@ public function display_notif($id){
     foreach ($posts as $post) {
       $wet=$this->get_notifA($post['post_id']);
       echo "<li><hr class='dropdown-divider'></li>
-      <li><a class='dropdown-item' href='/videoTemp.php?id=$wet'>".$post['message']."  ".$post['date']."  </a></li>";
+      <li><a class='dropdown-item' href='./videoTemp.php?id=$wet'>".$post['message']."  ".$post['date']."  </a></li>";
 
 
 
@@ -867,11 +867,11 @@ public function get_posters($id){
   if ($userCount > 0)
   {
     echo "  <div class='card text-white bg-dark' style='width: 18rem;'>
-  <img src='/img/user.png' class='card-img-top' alt='...'>
+  <img src='./img/user.png' class='card-img-top' alt='...'>
   <div class='card-body'>
     <h5 class='card-title'>".$user['name']."</h5>
     <p class='card-text'>Supporters ".$user['supporter']."</p>
-    <a href='/accDash.php?id=".$user['id']."' class='btn btn-light'>Visit The Account</a>
+    <a href='./accDash.php?id=".$user['id']."' class='btn btn-light'>Visit The Account</a>
   </div>
 </div>"
     ;

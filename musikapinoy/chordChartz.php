@@ -2,7 +2,7 @@
 <?php
 
 include_once 'class.php';
-$music->contact();
+
  ?>
 
 
@@ -20,20 +20,14 @@ $music->contact();
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/css.css">
-<style media="screen">
-  .st{
-    background: #222831;
-    color: white;
+    <link rel="stylesheet" href="./css/css.css">
+<style >
+.center {
+display: block;
+margin-left: auto;
+margin-right: auto;
 
-    padding: 24px;
-  height: 25rem;
-
-  }
-  .zeze{
-
-
-  }
+}
 </style>
     <title>Musika Pinoy</title>
   </head>
@@ -43,7 +37,7 @@ $music->contact();
     </div>
     <nav class="navbar navbar-expand-lg navbar-light nab sticky-top" >
     <div class="container">
-      <a class="navbar-brand" href="/index.php" style="margin-top:10px;"> MUSIKA PINOY</a>
+      <a class="navbar-brand" href="./index.php" style="margin-top:10px;"> MUSIKA PINOY</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -147,7 +141,7 @@ $music->contact();
 		<div class="col-md-12 header">
 
       <div class="title">
-        <h1 class="align-middle">CONTACT US</h1>
+        <h1 class="align-middle">ONE SOUND ONE BAND ONE LOVE</h1>
       </div>
 
 		</div>
@@ -157,35 +151,15 @@ $music->contact();
 
 <section class="second-section">
   <!-- Categories -->
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 st">
-        <br>
-        <h3 align="center">Contact Us!</h3>
-        <form class="" action="" method="post" id="wawa">
-          <div class="mb-3">
-    <label for="exampleFormControlInput1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-  </div>
-  <div class="mb-3">
-    <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-  </div>
-  <button type="submit" name="button" class="btn btn-light">Submit</button>
-        </form>
-
-
-      </div>
-      <div class="col-md-6 zeze">
-<div class="mapouter"><div class="gmap_canvas"><iframe width="563" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=Barangay%20Lantic%20Carmona%20Cavite&t=&z=11&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://yt2.org"></a><br><style>.mapouter{position:relative;text-align:right;height:500px;width:563px;}</style><style>.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:563px;}</style></div></div>
-      </div>
-    </div>
-
-  </div>
+  <h3 class="a">Guitar Chord Chart!</h3>
+  <img src="img/chart.jpg" alt="" class="img-fluid center">
 
 
 </section>
 <!-- Learn Instruments -->
+
+
+
 
 
 
@@ -212,8 +186,8 @@ $music->contact();
       <div class="list-group " id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Explore</a>
         <a class="list-group-item list-group-item-action bg-dark text-light" href="#"  aria-controls="home">Home</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Profile</a>
-        <a class="list-group-item list-group-item-action bg-dark text-light"  href="/contact.php"  aria-controls="messages">Message</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Profile</a>
+        <a class="list-group-item list-group-item-action bg-dark text-light"  href="./contact.php"  aria-controls="messages">Message</a>
 
       </div>
     </div>
@@ -244,8 +218,8 @@ $music->contact();
 
     <div class="list-group " id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action bg-light text-dark" href="#"  aria-controls="home">Legal</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light" href="/home.php"  aria-controls="home">Terms and Privacy</a>
-      <a class="list-group-item list-group-item-action bg-dark text-light"  href="/about.php"  aria-controls="profile">Business</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light" href="./home.php"  aria-controls="home">Terms and Privacy</a>
+      <a class="list-group-item list-group-item-action bg-dark text-light"  href="./about.php"  aria-controls="profile">Business</a>
 
 
     </div>
@@ -274,37 +248,6 @@ var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
 var n = strDate.search("/");
 var date = strDate.slice(0,n);
 $('#date').text(date);
-
-var em = $('#exampleFormControlInput1');
-var txt = $('#exampleFormControlTextarea1');
-$('#wawa').on('submit',function(e){
-e.preventDefault();
-$.ajax({
-
-type:'post',
-url:'contact.php',
-data:{sub:1,ems:em.val(),mes:txt.val()},
-success:function(res){
-  var a = res.search("<!");
-  var b = res.slice(0,a);
-alert(b);
-
-}
-
-
-
-
-})
-
-
-
-
-
-
-});
-
-
-
 
 });
 </script>
